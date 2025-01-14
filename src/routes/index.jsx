@@ -2,9 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
 import Account from "../pages/Account";
+import Auth from "../pages/Auth";
 
 const RouterApp = () => {
   const isLogin = false;
@@ -24,11 +23,11 @@ const RouterApp = () => {
   const navigateRoutes = [
     {
       path: "/account/login",
-      element: isLogin ? <Navigate to="/account" replace /> : <Login />,
+      element: isLogin ? <Navigate to="/account" replace /> : <Auth login={true} />,
     },
     {
       path: "/account/register",
-      element: isLogin ? <Navigate to="/account" replace /> : <Register />,
+      element: isLogin ? <Navigate to="/account" replace /> : <Auth register={true} />,
     },
     {
       path: "/account",

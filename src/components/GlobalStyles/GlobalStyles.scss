@@ -631,6 +631,24 @@ img {
 }
 
 /* 1.7 - Button */
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
 .btn {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
@@ -1001,4 +1019,82 @@ img {
 body.open-search .siteOverlay {
   opacity: 1;
   visibility: visible;
+}
+
+.form-checkbox {
+  font-size: 16px;
+  font-weight: 500;
+  color: #3d3d3d;
+  margin: 24px 0 !important;
+
+  .line-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      border-radius: 0;
+      appearance: none;
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        left: 0px;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        margin: auto;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border: 1px solid #b0b0b0;
+        cursor: pointer;
+        border-radius: 0;
+      }
+
+      &:before {
+        transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+        transform: rotate(-45deg) scale(0, 0);
+        content: "";
+        position: absolute;
+        left: 0px;
+        right: 0;
+        top: 5px;
+        margin: auto;
+        z-index: 1;
+        width: 10px;
+        height: 5px;
+        border: 1px solid #fff;
+        border-top-style: none;
+        border-right-style: none;
+      }
+
+      &:checked {
+        &:after {
+          background-color: #2e2e2e;
+          border-color: transparent;
+        }
+
+        &:before {
+          transform: rotate(-45deg) scale(1, 1);
+        }
+      }
+    }
+
+    label {
+      margin: 0;
+      font-weight: inherit;
+    }
+
+    + .line-checkbox {
+      margin-top: 18px;
+    }
+  }
+}
+
+.hidden {
+  display: none;
 }
