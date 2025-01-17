@@ -1,10 +1,12 @@
+import Marqee from "../../components/Marqee";
+
 import "./Home.scss";
 
 const Home = () => {
   return (
     <>
       <main className="home">
-        <div className="container-fluid"></div>
+        <Marqee />
       </main>
     </>
   );
