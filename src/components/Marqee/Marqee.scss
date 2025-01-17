@@ -1,6 +1,6 @@
 .marqee {
   background: #000;
-  padding: 4px 0 4px;
+  padding: 12px 24px;
 
   .list-marqee {
     display: flex;
@@ -32,5 +32,11 @@
         }
       }
     }
+  }
+}
+
+@media (min-width: 992px) {
+  .marqee {
+    padding: 4px 0 4px;
   }
 }
