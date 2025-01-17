@@ -1,166 +1,223 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import "./Auth.scss";
+import { Auth } from "../../api/auth";
+import AuthConext from "../../context/AuthProvider";
+
+import "./LoginRegister.scss";
 
 import { ReactComponent as IconEye } from "../../assets/svg/eye.svg";
 import { ReactComponent as IconNotEye } from "../../assets/svg/noteye.svg";
 import { ReactComponent as IconGoogle } from "../../assets/svg/logingg.svg";
 import { ReactComponent as IconFacebook } from "../../assets/svg/loginfb.svg";
 
-const Auth = ({ login, register }) => {
-  const location = useLocation();
+const LoginRegister = ({ login, register }) => {
+  const { user, setUser, loggedIn, setLoggedIn } = useContext(AuthConext);
 
-  const [email, setEmail] = useState("");
-  const [recoverEmail, setRecoverEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [isCheckAgree1, setIsCheckAgree1] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [formLogin, setFormLogin] = useState({
+    email: "",
+    password: "",
+  });
+  const [formForgotPassword, setFormForgotPassword] = useState({
+    recoverEmail: "",
+  });
+  const [formRegister, setFormRegister] = useState({
+    email: "",
+    password: "",
+    lastName: "",
+    firstName: "",
+  });
+  const [formErrorLogin, setFormErrorLogin] = useState({
+    errorEmail: "",
+    errorPassword: "",
+    errorStatus: "",
+  });
+  const [formErrorForgotPassword, setFormErrorForgotPassword] = useState({
+    errorRecoverEmail: "",
+    errorStatus: "",
+  });
+  const [formErrorRegister, setFormErrorRegister] = useState({
+    errorEmail: "",
+    errorPassword: "",
+    errorLastName: "",
+    errorFirstName: "",
+    errorStatus: "",
+    successStatus: "",
+  });
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowForgotPassword, setIsShowForgotPassword] = useState(false);
-  const [errorEmail, setErrorEmail] = useState("");
-  const [errorRecoverEmail, setErrorRecoverEmail] = useState("");
-  const [errorPassword, setErrorPassword] = useState("");
-  const [errorLastName, setErrorLastName] = useState("");
-  const [errorFirstName, setErrorFirstName] = useState("");
+  const [isCheckAgree, setIsCheckAgree] = useState(false);
 
-  const handleChangeText = (e) => {
+  const handleOnChangeLogin = (e) => {
     const { name, value } = e.target;
-    if (name === "email") setEmail(value);
-    if (name === "recover_email") setRecoverEmail(value);
-    if (name === "password") setPassword(value);
-    if (name === "last_name") setLastName(value);
-    if (name === "first_name") setFirstName(value);
+    setFormLogin({ ...formLogin, [name]: value });
+  };
+
+  const handleOnChangeRegister = (e) => {
+    const { name, value } = e.target;
+    setFormRegister({ ...formRegister, [name]: value });
+  };
+
+  const handleOnChangeForgotPassword = (e) => {
+    const { name, value } = e.target;
+    setFormForgotPassword({ ...formForgotPassword, [name]: value });
   };
 
   const handleShowPassword = () => {
-    if (password !== "") setIsShowPassword(!isShowPassword);
+    if (formLogin.password !== "" || formRegister.password !== "") {
+      setIsShowPassword(!isShowPassword);
+    }
   };
 
-  const handleCheckAgree1 = () => {
-    setIsCheckAgree1(!isCheckAgree1);
-  };
-
-  const handleLogin = () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const { email, password } = formLogin;
     if (email === "") {
-      setErrorEmail("Email không được để trống");
+      setFormErrorLogin({ ...formErrorLogin, errorEmail: "Email không được trống!" });
       return;
-    } else if (!email.includes("@") || !email.includes(".")) {
-      setErrorEmail("Email không hợp lệ");
-      return;
-    } else {
-      setErrorEmail("");
     }
-
+    if (!email.includes("@") || !email.includes(".")) {
+      setFormErrorLogin({ ...formErrorLogin, errorEmail: "Email không hợp lệ!" });
+      return;
+    }
     if (password === "") {
-      setErrorPassword("Mật khẩu không được để trống");
+      setFormErrorLogin({ ...formErrorLogin, errorPassword: "Mật khẩu không được trống!" });
       return;
-    } else {
-      setErrorPassword("");
     }
-
+    if (password.length < 10 || password.length > 16) {
+      setFormErrorLogin({ ...formErrorLogin, errorPassword: "Mật khẩu phải từ 10 đến 16 ký tự!" });
+      return;
+    }
+    setFormErrorLogin({ ...formErrorLogin, errorEmail: "", errorPassword: "" });
     const account = { email, password };
-    console.log(account);
+    try {
+      const response = await Auth.login(account);
 
-    // Call API login
+      if (!response.data.success) {
+        setFormErrorLogin({ ...formErrorLogin, errorStatus: response.data.message });
+        return;
+      }
+      setFormErrorLogin({ ...formErrorLogin, errorStatus: "" });
+      setUser(response.data.user);
+      setLoggedIn(true);
+      navigate("/");
+    } catch (error) {
+      setFormErrorLogin({ ...formErrorLogin, errorStatus: error.response.data.message });
+    }
   };
 
-  const handleForgotPassword = () => {
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    const { recoverEmail } = formForgotPassword;
     if (recoverEmail === "") {
-      setErrorRecoverEmail("Email không được để trống");
+      setFormErrorForgotPassword({
+        ...formErrorForgotPassword,
+        errorRecoverEmail: "Email không được trống!",
+      });
       return;
-    } else if (!recoverEmail.includes("@") || !recoverEmail.includes(".")) {
-      setErrorRecoverEmail("Email không hợp lệ");
-      return;
-    } else {
-      setErrorRecoverEmail("");
     }
-
-    console.log(recoverEmail);
-
-    // Call API forgot password
+    if (/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(recoverEmail)) {
+      setFormErrorForgotPassword({
+        ...formErrorForgotPassword,
+        errorRecoverEmail: "Email không hợp lệ!",
+      });
+      return;
+    }
+    setFormErrorForgotPassword({ ...formErrorForgotPassword, errorRecoverEmail: "" });
+    // const data = await Auth.forgotPassword(recoverEmail);
+    // if (data.error) {
+    //   setFormErrorForgotPassword({ ...formErrorForgotPassword, errorStatus: data.message });
+    //   return;
+    // }
+    alert("Chức năng đang phát triển");
   };
 
-  const handleRegister = () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    const { email, password, lastName, firstName } = formRegister;
     if (email === "") {
-      setErrorEmail("Email không được để trống");
+      setFormErrorRegister({ ...formErrorRegister, errorEmail: "Email không được trống!" });
       return;
-    } else if (!email.includes("@") || !email.includes(".")) {
-      setErrorEmail("Email không hợp lệ");
-      return;
-    } else {
-      setErrorEmail("");
     }
-
+    if (!email.includes("@") || !email.includes(".")) {
+      setFormErrorRegister({ ...formErrorRegister, errorEmail: "Email không hợp lệ!" });
+      return;
+    }
     if (password === "") {
-      setErrorPassword("Mật khẩu không được để trống");
+      setFormErrorRegister({ ...formErrorRegister, errorPassword: "Mật khẩu không được trống!" });
       return;
-    } else if (password.length < 10 || password.length > 16) {
-      setErrorPassword("Mật khẩu phải dài 10-16 ký tự");
-      return;
-    } else if (!/[A-Z]/.test(password)) {
-      setErrorPassword("Mật khẩu phải chứa ít nhất một chữ hoa");
-      return;
-    } else if (!/[a-z]/.test(password)) {
-      setErrorPassword("Mật khẩu phải chứa ít nhất một chữ thường");
-      return;
-    } else if (!/[0-9]/.test(password)) {
-      setErrorPassword("Mật khẩu phải chứa ít nhất một chữ số");
-      return;
-    } else if (/[^a-zA-Z0-9]/.test(password)) {
-      setErrorPassword("Mật khẩu phải chứa ít nhất một Ký hiệu Đặc biệt");
-      return;
-    } else {
-      setErrorPassword("");
     }
-
+    if (password.length < 10 || password.length > 16) {
+      setFormErrorRegister({
+        ...formErrorRegister,
+        errorPassword: "Mật khẩu phải từ 10 đến 16 ký tự!",
+      });
+      return;
+    }
     if (lastName === "") {
-      setErrorLastName("Họ không được để trống");
+      setFormErrorRegister({ ...formErrorRegister, errorLastName: "Họ không được trống!" });
       return;
-    } else if (!lastName.match(/^[a-zA-Z]+$/)) {
-      setErrorLastName("Họ chỉ được chứa chữ cái");
-      return;
-    } else {
-      setErrorLastName("");
     }
-
+    if (/\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/.test(lastName)) {
+      setFormErrorLogin({ ...formErrorLogin, errorLastName: "Họ không hợp lệ!" });
+    }
     if (firstName === "") {
-      setErrorFirstName("Tên không được để trống");
+      setFormErrorRegister({ ...formErrorRegister, errorFirstName: "Tên không được trống!" });
       return;
-    } else if (!firstName.match(/^[a-zA-Z]+$/)) {
-      setErrorFirstName("Tên chỉ được chứa chữ cái");
-      return;
-    } else {
-      setErrorFirstName("");
     }
+    if (/\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+/.test(firstName)) {
+      setFormErrorLogin({ ...formErrorLogin, errorFirstName: "Tên không hợp lệ!" });
+    }
+    setFormErrorRegister({
+      errorEmail: "",
+      errorPassword: "",
+      errorLastName: "",
+      errorFirstName: "",
+      errorStatus: "",
+    });
 
-    const newAccount = { email, password, lastName, firstName };
-    console.log(newAccount);
-
-    // Call API register
+    try {
+      const response = await Auth.register({ email, password, lastName, firstName });
+      if (!response.data.success) {
+        setFormErrorRegister({ ...formErrorRegister, errorStatus: response.data.message });
+        return;
+      }
+      setFormErrorRegister({
+        ...formErrorRegister,
+        errorStatus: "",
+        successStatus: response.data.message,
+      });
+      setUser(response.data.user);
+      setLoggedIn(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 50000);
+    } catch (error) {
+      setFormErrorRegister({ ...formErrorRegister, errorStatus: error.response.data.message });
+    }
   };
 
-  useEffect(() => {
-    setEmail("");
-    setRecoverEmail("");
-    setPassword("");
-    setLastName("");
-    setFirstName("");
-    setErrorEmail("");
-    setErrorRecoverEmail("");
-    setErrorPassword("");
-    setErrorLastName("");
-    setErrorFirstName("");
-    setIsCheckAgree1(false);
-    setIsShowPassword(false);
-    setIsShowForgotPassword(false);
-  }, [location]);
+  const handleLoginGoogle = async (e) => {
+    alert("Chức năng đang phát triển");
+  };
+
+  const handleLoginFacebook = async (e) => {
+    alert("Chức năng đang phát triển");
+  };
+
+  useEffect(() => {}, [location]);
 
   useEffect(() => {
-    document.title = register ? "Tạo tài khoản - ARISTINO" : "Tài khoản - ARISTINO";
+    document.title = register
+      ? "Tạo tài khoản - ARISTINO"
+      : isShowForgotPassword
+      ? "Quên mật khẩu - ARISTINO"
+      : "Tài khoản - ARISTINO";
     window.scrollTo(0, 0);
-  }, [register]);
+  }, [register, isShowForgotPassword]);
 
   return (
     <>
@@ -169,7 +226,7 @@ const Auth = ({ login, register }) => {
           <div className="customer-actions-wrapper">
             <div
               className="customer-actions-forms"
-              style={login ? { height: "521.8px" } : { height: "812.8px" }}
+              style={login ? { height: "521.8px" } : { height: "761.8px" }}
             >
               <div className={`login-n-sigup${isShowForgotPassword ? " forgot-password" : ""}`}>
                 <div className="login-n-sigup-forms-header tab-header">
@@ -201,11 +258,16 @@ const Auth = ({ login, register }) => {
                           action="/account/login"
                           id="customer_login"
                           method="post"
+                          onSubmit={handleLogin}
                         >
                           <input name="form_type" type="hidden" defaultValue="customer_login" />
                           <input name="utf8" type="hidden" defaultValue="✓" />
 
-                          <div className={`item-input-form${errorEmail !== "" ? " error" : ""}`}>
+                          <div
+                            className={`item-input-form${
+                              formErrorLogin.errorEmail !== "" ? " error" : ""
+                            }`}
+                          >
                             <label className="form-label" htmlFor="login-email">
                               Email*
                             </label>
@@ -216,13 +278,17 @@ const Auth = ({ login, register }) => {
                               name="email"
                               className="form-control"
                               id="login-email"
-                              autoComplete="username"
-                              onChange={handleChangeText}
+                              autoComplete="email"
+                              onChange={handleOnChangeLogin}
                             />
-                            <span className="text-error">{errorEmail}</span>
+                            <span className="text-error">{formErrorLogin.errorEmail}</span>
                           </div>
 
-                          <div className={`item-input-form${errorPassword !== "" ? " error" : ""}`}>
+                          <div
+                            className={`item-input-form${
+                              formErrorLogin.errorPassword !== "" ? " error" : ""
+                            }`}
+                          >
                             <label className="form-label" htmlFor="password">
                               Mật Khẩu*
                             </label>
@@ -232,11 +298,11 @@ const Auth = ({ login, register }) => {
                               required
                               name="password"
                               className={`input-password form-control${
-                                password !== "" ? " has-value" : ""
+                                formLogin.password !== "" ? " has-value" : ""
                               }`}
                               id="password"
                               autoComplete="current-password"
-                              onChange={handleChangeText}
+                              onChange={handleOnChangeLogin}
                             />
                             <span className="eyes-password">
                               {isShowPassword ? (
@@ -245,15 +311,20 @@ const Auth = ({ login, register }) => {
                                 <IconNotEye onClick={handleShowPassword} />
                               )}
                             </span>
-                            <span className="text-error">{errorPassword}</span>
+                            <span className="text-error">{formErrorLogin.errorPassword}</span>
                           </div>
-                          <div className="error-status hidden"></div>
+                          <div
+                            className={`error-status${
+                              formErrorLogin.errorStatus === "" ? " hidden" : ""
+                            }`}
+                          >
+                            {formErrorLogin.errorStatus}
+                          </div>
                           <div className="item-input-form">
                             <button
                               className="btn btn-login-form-page"
-                              type="button"
+                              type="submit"
                               value="ĐĂNG NHẬP"
-                              onClick={handleLogin}
                             >
                               Đăng nhập
                             </button>
@@ -278,16 +349,23 @@ const Auth = ({ login, register }) => {
                           <div className="form-desc">
                             Xác thực tài khoản của bạn để làm mới mật khẩu
                           </div>
-                          <form acceptCharset="UTF-8" action="/account/recover" method="post">
+                          <form
+                            acceptCharset="UTF-8"
+                            action="/account/recover"
+                            method="post"
+                            onSubmit={handleForgotPassword}
+                          >
                             <input
                               name="form_type"
                               type="hidden"
                               defaultValue="recover_customer_password"
+                              autoComplete="email"
+                              onChange={handleOnChangeForgotPassword}
                             />
                             <input name="utf8" type="hidden" defaultValue="✓" />
                             <div
                               className={`item-input-form${
-                                errorRecoverEmail !== "" ? " error" : ""
+                                formErrorForgotPassword.errorRecoverEmail !== "" ? " error" : ""
                               }`}
                             >
                               <label className="form-label" htmlFor="recover-email">
@@ -300,15 +378,22 @@ const Auth = ({ login, register }) => {
                                 name="recover_email"
                                 id="recover-email"
                                 className="form-control"
-                                onChange={handleChangeText}
                               />
-                              <span className="text-error">{errorRecoverEmail}</span>
+                              <span className="text-error">
+                                {formErrorForgotPassword.errorRecoverEmail}
+                              </span>
                             </div>
-                            <div className="error-status hidden"></div>
+                            <div
+                              className={`error-status${
+                                formErrorForgotPassword.errorStatus === "" ? " hidden" : ""
+                              }`}
+                            >
+                              {formErrorForgotPassword.errorStatus}
+                            </div>
                             <div className="item-input-form">
                               <button
                                 className="no-image btn-recaptcha btn btn--fill-black btn-send-forgot-form-page"
-                                type="button"
+                                type="submit"
                                 value="XÁC THỰC EMAIL"
                                 onClick={handleForgotPassword}
                               >
@@ -336,6 +421,7 @@ const Auth = ({ login, register }) => {
                             onClick={(e) => {
                               e.preventDefault();
                               setIsShowForgotPassword(false);
+                              navigate("/account/register");
                             }}
                           >
                             Tạo ngay
@@ -356,38 +442,46 @@ const Auth = ({ login, register }) => {
                           <input name="form_type" type="hidden" defaultValue="create_customer" />
                           <input name="utf8" type="hidden" defaultValue="✓" />
 
-                          <div className={`item-input-form${errorEmail !== "" ? " error" : ""}`}>
+                          <div
+                            className={`item-input-form${
+                              formErrorRegister.errorEmail !== "" ? " error" : ""
+                            }`}
+                          >
                             <label htmlFor="signup-email" className="form-label">
                               Email*
                             </label>
                             <input
+                              required
                               id="signup-email"
                               name="email"
                               type="email"
                               placeholder="Nhập Email"
-                              autoComplete="username"
-                              required
+                              autoComplete="email"
                               className="form-control"
-                              onChange={handleChangeText}
+                              onChange={handleOnChangeRegister}
                             />
-                            <span className="text-error">{errorEmail}</span>
+                            <span className="text-error">{formErrorRegister.errorEmail}</span>
                           </div>
 
-                          <div className={`item-input-form${errorPassword !== "" ? " error" : ""}`}>
+                          <div
+                            className={`item-input-form${
+                              formErrorRegister.errorPassword !== "" ? " error" : ""
+                            }`}
+                          >
                             <label htmlFor="signup-password" className="form-label">
                               Mật khẩu*
                             </label>
                             <input
+                              required
                               id="signup-password"
                               name="password"
                               type={isShowPassword ? "text" : "password"}
                               placeholder="Nhập Mật Khẩu"
                               autoComplete="new-password"
-                              required
                               className={`input-password form-control${
-                                password !== "" ? " has-value" : ""
+                                formRegister.password !== "" ? " has-value" : ""
                               }`}
-                              onChange={handleChangeText}
+                              onChange={handleOnChangeRegister}
                             />
                             <span className="eyes-password">
                               {isShowPassword ? (
@@ -396,52 +490,58 @@ const Auth = ({ login, register }) => {
                                 <IconNotEye onClick={handleShowPassword} />
                               )}
                             </span>
-                            <span className="text-error">{errorPassword}</span>
+                            <span className="text-error">{formErrorRegister.errorPassword}</span>
                           </div>
 
-                          <div className={`item-input-form${errorLastName !== "" ? " error" : ""}`}>
+                          <div
+                            className={`item-input-form${
+                              formErrorRegister.errorLastName !== "" ? " error" : ""
+                            }`}
+                          >
                             <label htmlFor="signup-last-name" className="form-label">
                               Họ*
                             </label>
                             <input
+                              required
                               id="signup-last-name"
-                              name="last_name"
+                              name="lastName"
                               type="text"
                               placeholder="Nhập họ của bạn"
-                              required
                               className="form-control"
-                              onChange={handleChangeText}
+                              onChange={handleOnChangeRegister}
                             />
-                            <span className="text-error">{errorLastName}</span>
+                            <span className="text-error">{formErrorRegister.errorLastName}</span>
                           </div>
 
                           <div
-                            className={`item-input-form${errorFirstName !== "" ? " error" : ""}`}
+                            className={`item-input-form${
+                              formErrorRegister.errorFirstName !== "" ? " error" : ""
+                            }`}
                           >
                             <label htmlFor="signup-first-name" className="form-label">
                               Tên*
                             </label>
                             <input
+                              required
                               id="signup-first-name"
-                              name="first_name"
+                              name="firstName"
                               type="text"
                               placeholder="Nhập tên của bạn"
-                              required
                               className="form-control"
-                              onChange={handleChangeText}
+                              onChange={handleOnChangeRegister}
                             />
-                            <span className="text-error">{errorFirstName}</span>
+                            <span className="text-error">{formErrorRegister.errorFirstName}</span>
                           </div>
 
                           <div className="item-input-form form-checkbox">
                             <div className="line-checkbox" id="agree-1">
                               <input
-                                id="input-agree1"
+                                id="input-agree"
                                 type="checkbox"
-                                checked={isCheckAgree1}
-                                onChange={handleCheckAgree1}
+                                checked={isCheckAgree}
+                                onChange={() => setIsCheckAgree(!isCheckAgree)}
                               />
-                              <label htmlFor="input-agree1">
+                              <label htmlFor="input-agree">
                                 Tôi đồng ý với điều khoản và điều kiện
                               </label>
                             </div>
@@ -450,19 +550,31 @@ const Auth = ({ login, register }) => {
                           <div className="item-input-form">
                             <button
                               id="submit-btn"
-                              {...(!isCheckAgree1 ? { disabled: true } : {})}
+                              {...(!isCheckAgree ? { disabled: true } : {})}
                               className={`btn btn-register-form-page${
-                                isCheckAgree1 ? "" : " disabled"
+                                isCheckAgree ? "" : " disabled"
                               }`}
-                              type="button"
+                              type="submit"
                               onClick={handleRegister}
                             >
                               REGISTER
                             </button>
                           </div>
 
-                          <div className="error-status hidden"></div>
-                          <div className="success-status hidden"></div>
+                          <div
+                            className={`error-status${
+                              formErrorRegister.errorStatus === "" ? " hidden" : ""
+                            }`}
+                          >
+                            {formErrorRegister.errorStatus}
+                          </div>
+                          <div
+                            className={`success-status${
+                              formErrorRegister.successStatus === "" ? " hidden" : ""
+                            }`}
+                          >
+                            {formErrorRegister.successStatus}
+                          </div>
 
                           <div className="item-input-form form-desc">
                             Bằng việc đăng kí, bạn đã đồng ý với KG về
@@ -490,6 +602,7 @@ const Auth = ({ login, register }) => {
                         title="Đăng nhập Google"
                         to="#"
                         className="google-login btn"
+                        onClick={handleLoginGoogle}
                       >
                         <IconGoogle />
                         <span>Đăng nhập Google</span>
@@ -499,6 +612,7 @@ const Auth = ({ login, register }) => {
                         title="Đăng nhập Facebook"
                         to="#"
                         className="facebook-login btn"
+                        onClick={handleLoginFacebook}
                       >
                         <IconFacebook />
                         <span>Đăng nhập Facebook</span>
@@ -515,4 +629,4 @@ const Auth = ({ login, register }) => {
   );
 };
 
-export default Auth;
+export default LoginRegister;

@@ -1,13 +1,15 @@
+import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Account from "../pages/Account";
-import Auth from "../pages/Auth";
+import LoginRegister from "../pages/LoginRegister";
+
+import AuthConext from "../context/AuthProvider";
 
 const RouterApp = () => {
-  const isLogin = false;
-  const isAdmin = false;
+  const { loggedIn, user } = useContext(AuthConext);
 
   const publicRoutes = [
     {
@@ -23,16 +25,16 @@ const RouterApp = () => {
   const navigateRoutes = [
     {
       path: "/account/login",
-      element: isLogin ? <Navigate to="/account" replace /> : <Auth login={true} />,
+      element: loggedIn ? <Navigate to="/account" replace /> : <LoginRegister login={true} />,
     },
     {
       path: "/account/register",
-      element: isLogin ? <Navigate to="/account" replace /> : <Auth register={true} />,
+      element: loggedIn ? <Navigate to="/account" replace /> : <LoginRegister register={true} />,
     },
     {
       path: "/account",
-      element: isLogin ? (
-        isAdmin ? (
+      element: loggedIn ? (
+        user.role === "admin" ? (
           <Navigate to="/admin" replace />
         ) : (
           <Account />
@@ -45,7 +47,11 @@ const RouterApp = () => {
 
   const adminRoutes = [];
 
-  const routes = [...publicRoutes, ...navigateRoutes, ...(isAdmin ? adminRoutes : [])];
+  const routes = [
+    ...publicRoutes,
+    ...navigateRoutes,
+    ...(user.role === "admin" ? adminRoutes : []),
+  ];
 
   return (
     <>

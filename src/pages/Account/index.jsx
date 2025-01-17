@@ -1,25 +1,49 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./Account.scss";
+
+import { Auth } from "../../api/auth";
+import AuthContext from "../../context/AuthProvider";
 
 import { ReactComponent as IconUser } from "../../assets/svg/user.svg";
 import { ReactComponent as IconOrder } from "../../assets/svg/order.svg";
 import { ReactComponent as IconAddress } from "../../assets/svg/address.svg";
 
-const user = {
-  email: "tandu542003@gmail.com",
-  firstName: "Tấn Dự",
-  lastName: "Nguyễn",
-  // birthday: {
-  //   day: 5,
-  //   month: 4,
-  //   year: 2003,
-  // },
-  birthday: null,
-};
-
 const Account = () => {
+  const { user, setUser, setLoggedIn } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
+  const { email } = user;
+
+  const { firstName, lastName, birthday } = user.profile;
+
+  const [birthdayValue, setBirthdayValue] = useState(birthday);
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    const day = new Date(date).getDate();
+    const month = new Date(date).getMonth() + 1;
+    const year = new Date(date).getFullYear();
+    return `${day < 10 ? "0" + day : day}/${month < 10 ? "0" + month : month}/${year}`;
+  };
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    alert("Chức năng đang được phát triển");
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+    const response = await Auth.logout();
+    if (response.data.success) {
+      setUser({});
+      setLoggedIn(false);
+      navigate("/");
+    }
+  };
+
   useEffect(() => {
     document.title = "Tài khoản - ARISTINO";
     window.scrollTo(0, 0);
@@ -34,10 +58,12 @@ const Account = () => {
               <div className="account-sidebar">
                 <div className="account-avartar">
                   <div className="line">
-                    <div className="name">Xin Chào, {user.firstName + " " + user.lastName}!</div>
+                    <div className="name">
+                      Xin Chào, {user.profile.firstName + " " + user.profile.lastName}!
+                    </div>
                   </div>
                   <div className="line">
-                    <Link to="/account/logout" className="logout">
+                    <Link to="/account/logout" className="logout" onClick={handleLogout}>
                       <span>ĐĂNG XUẤT</span>
                     </Link>
                   </div>
@@ -72,10 +98,7 @@ const Account = () => {
                   <h1>THÔNG TIN CÁ NHÂN</h1>
                 </div>
                 <div className="account-form">
-                  <form acceptCharset="UTF-8" action="/account" id="update_customer" method="post">
-                    <input name="form_type" type="hidden" defaultValue="update_customer" />
-                    <input name="utf8" type="hidden" defaultValue="✓" />
-
+                  <form onSubmit={handleUpdateProfile}>
                     <div className="form-row">
                       <div className="form-col-half">
                         <div className="item-input-form">
@@ -85,7 +108,7 @@ const Account = () => {
                           <input
                             disabled
                             type="email"
-                            defaultValue={user.email}
+                            defaultValue={email}
                             name="email"
                             className="form-control"
                             id="email"
@@ -102,13 +125,11 @@ const Account = () => {
                             type="text"
                             placeholder="Nhập tên"
                             required=""
-                            defaultValue={user.lastName + " " + user.firstName}
+                            defaultValue={firstName + " " + lastName}
                             name="full_name"
                             className="form-control"
                             id="full_name"
                           />
-                          <input type="hidden" name="first_name" value={user.firstName} />
-                          <input type="hidden" name="last_name" value={user.lastName} />
                         </div>
                       </div>
                       <div className="form-col-full">
@@ -120,13 +141,12 @@ const Account = () => {
                             type="text"
                             placeholder="Nhập ngày tháng năm"
                             required=""
-                            value={user.birthday ?? ""}
                             name="birthday"
                             className="form-control"
                             id="birthday"
+                            value={formatDate(birthdayValue)}
                           />
                         </div>
-                        <input type="hidden" name="birthday" />
                       </div>
                       <div className="form-col-half">
                         <div className="action-btn">
