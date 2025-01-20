@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import Marqee from "../../components/Marqee";
 
 import "./Home.scss";
+import VideoHome from "../../components/VideoHome";
 
 const Home = () => {
   const sliderList = [
@@ -100,7 +101,17 @@ const Home = () => {
         </section>
         <section className="section brand">
           <div className="container-fluid pd-0">
-            <Swiper spaceBetween={2} slidesPerView={4}>
+            <Swiper
+              spaceBetween={0}
+              breakpoints={{
+                0: {
+                  slidesPerView: 2,
+                },
+                768: {
+                  slidesPerView: 4,
+                },
+              }}
+            >
               {brandList.map((item, index) => (
                 <SwiperSlide key={index}>
                   <div className="item-brand">
@@ -114,6 +125,7 @@ const Home = () => {
             </Swiper>
           </div>
         </section>
+        <VideoHome />
       </main>
     </>
   );
