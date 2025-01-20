@@ -12,7 +12,7 @@ import { ReactComponent as IconGoogle } from "../../assets/svg/logingg.svg";
 import { ReactComponent as IconFacebook } from "../../assets/svg/loginfb.svg";
 
 const LoginRegister = ({ login, register }) => {
-  const { user, setUser, loggedIn, setLoggedIn } = useContext(AuthConext);
+  const { setUser, setLoggedIn } = useContext(AuthConext);
 
   const location = useLocation();
   const navigate = useNavigate();

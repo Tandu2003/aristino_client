@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./Account.scss";
@@ -19,7 +19,7 @@ const Account = () => {
 
   const { firstName, lastName, birthday } = user.profile;
 
-  const [birthdayValue, setBirthdayValue] = useState(birthday);
+  // const [birthdayValue, setBirthdayValue] = useState(birthday);
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -144,7 +144,7 @@ const Account = () => {
                             name="birthday"
                             className="form-control"
                             id="birthday"
-                            value={formatDate(birthdayValue)}
+                            value={formatDate(birthday)}
                           />
                         </div>
                       </div>
