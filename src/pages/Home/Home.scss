@@ -28,4 +28,107 @@
       z-index: 1;
     }
   }
+
+  .handmade {
+    margin: 40px 0 30px;
+
+    .handmade-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      h3 {
+        display: inline-flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 10px;
+        font-size: 20px;
+      }
+    }
+
+    .handmade-slide {
+      display: -webkit-flex;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .handmade-main {
+      padding: 400px 0 39px;
+      background: url("https://res.cloudinary.com/rubiescloud/image/upload/v1737471030/aristino/15-pc_9cf31cff063c40d2b0dd5ac69f6f8662_mazmxq.webp")
+        no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .handmade-item-title {
+      margin-top: -3px;
+      background: #525252;
+      line-height: 30px;
+      padding: 15px 10px;
+      font-family: var(--skin-header-font);
+
+      a {
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .home .handmade {
+    margin: 50px 0 40px;
+
+    .container-fluid > div {
+      max-width: 82.2222%;
+      margin: 0px auto 10px;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .home .handmade .handmade-heading h3 {
+    gap: 26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .home .handmade .handmade-main {
+    background: url("https://res.cloudinary.com/rubiescloud/image/upload/v1737471207/aristino/15-mb_efea6d29c40841d3aedbe31520aa87a4_sezj1v.webp")
+      no-repeat;
+    background-size: 100% 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .home {
+    .handmade {
+      margin-bottom: 40px;
+
+      .container-fluid {
+        padding: 0;
+
+        .handmade-heading {
+          padding: 0 15px;
+          flex-wrap: wrap;
+          margin-bottom: 20px;
+
+          h3 {
+            margin-bottom: 0px;
+          }
+        }
+
+        .handmade-slide {
+          justify-content: flex-start;
+          overflow: hidden;
+          width: 100%;
+          overflow-x: auto;
+        }
+      }
+    }
+  }
 }

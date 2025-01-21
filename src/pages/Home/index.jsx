@@ -5,6 +5,9 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
+import { ReactComponent as IconPattern } from "../../assets/svg/circlepattern.svg";
+import { ReactComponent as IconSent } from "../../assets/svg/sent.svg";
+
 import Marqee from "../../components/Marqee";
 import VideoHome from "../../components/VideoHome";
 import BannerCate from "../../components/BannerCate";
@@ -194,6 +197,27 @@ const Home = () => {
     },
   ];
 
+  const handmadeList = [
+    {
+      image:
+        "https://res.cloudinary.com/rubiescloud/image/upload/v1737471595/aristino/8_fb086358a65c4ea6bb69fda45d768bf5_vdtofy.webp",
+      title: "Áo Polo Casual Nam",
+      link: "/collections/ao-polo",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/rubiescloud/image/upload/v1737471598/aristino/9_j0ta76.webp",
+      title: "Polo Formal",
+      link: "/collections/ao-polo",
+    },
+    {
+      image:
+        "https://res.cloudinary.com/rubiescloud/image/upload/v1737471616/aristino/10_lmkgp9.webp",
+      title: "Áo Khoác Nam",
+      link: "/collections/ao-khoac",
+    },
+  ];
+
   return (
     <>
       <main className="home">
@@ -254,6 +278,51 @@ const Home = () => {
         {bannerCateSlide.map((item, index) => (
           <BannerCate key={`slide-${index}`} type="slide" data={item} />
         ))}
+        <section className="section handmade">
+          <div className="container-fluid pd-0">
+            <div className="handmade-heading">
+              <h3>
+                <IconPattern />
+                <span> ARISTINO HANDMADE</span>
+              </h3>
+              <Link to="/collections/tat-ca-suit" className="btn-kg btn-outline-2">
+                <span>Xem tất cả</span>
+                <IconSent />
+              </Link>
+            </div>
+            <div className="handmade-main">
+              <div className="handmade-slide">
+                <Swiper
+                  modules={[Autoplay, Pagination]}
+                  spaceBetween={12}
+                  breakpoints={{
+                    0: {
+                      slidesPerView: 1.2,
+                    },
+                    768: {
+                      slidesPerView: 3,
+                    },
+                  }}
+                >
+                  {handmadeList.map((item, index) => (
+                    <SwiperSlide key={index}>
+                      <div className="handmade-item">
+                        <div className="handmade-item-img">
+                          <Link to={item.link}>
+                            <img src={item.image} alt={item.title} />
+                          </Link>
+                        </div>
+                        <div className="handmade-item-title">
+                          <Link to={item.link}>{item.title}</Link>
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </>
   );
