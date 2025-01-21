@@ -718,6 +718,74 @@ textarea {
   color: var(--skin-text-color);
 }
 
+.btn-kg {
+  font-weight: 600;
+  font-size: 14px;
+  color: #110e11;
+  background: #fff;
+  height: 30px;
+  width: auto;
+  border: none;
+  padding: 2.5px 4px 2.5px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 27px;
+  text-align: left;
+  outline: none;
+  box-shadow: none;
+
+  svg {
+    color: #fff;
+  }
+
+  span {
+    min-width: 77px;
+    line-height: 24px;
+    display: none;
+    padding-top: 2px;
+  }
+}
+
+@media (min-width: 992px) {
+  .btn-kg {
+    border: 1px solid #fff;
+    justify-content: space-between;
+
+    span {
+      display: block;
+      font-family: var(--skin-text-font);
+    }
+
+    &.btn-dark {
+      background: #110e11;
+      color: #fff;
+      border: 1px solid #110e11;
+    }
+
+    &.btn-outline-1 {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+
+    &.btn-outline-2 {
+      background: transparent;
+      color: #110e11;
+      border: 1px solid #110e11;
+    }
+
+    &.btn-small {
+      height: 30px;
+    }
+
+    &.btn-full {
+      min-width: auto;
+      width: 100%;
+    }
+  }
+}
+
 /* 1.8 - Container */
 .container-fluid,
 .container {
@@ -1093,6 +1161,57 @@ body.open-search .siteOverlay {
       margin-top: 18px;
     }
   }
+}
+
+.aspect-ratio {
+  position: relative;
+  overflow: hidden;
+  display: block;
+
+  picture {
+    position: relative;
+    padding-bottom: calc(var(--height-mb) / var(--width-mb) * 100%);
+    display: block;
+  }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: var(--height-mb) / var(--width-mb);
+    object-fit: cover;
+  }
+
+  &.back-origin {
+    display: -webkit-flex;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+
+    a {
+      display: block;
+      flex: 0 0 auto;
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .aspect-ratio {
+    picture {
+      padding-bottom: calc(var(--height-desk) / var(--width-desk) * 100%);
+    }
+
+    img {
+      aspect-ratio: var(--height-desk) / var(--width-desk);
+    }
+  }
+}
+
+.pd-0 {
+  padding: 0;
 }
 
 .hidden {

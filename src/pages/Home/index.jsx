@@ -6,9 +6,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import Marqee from "../../components/Marqee";
+import VideoHome from "../../components/VideoHome";
+import BannerCate from "../../components/BannerCate";
 
 import "./Home.scss";
-import VideoHome from "../../components/VideoHome";
 
 const Home = () => {
   const sliderList = [
@@ -74,6 +75,125 @@ const Home = () => {
     },
   ];
 
+  const bannerCateGrids = [
+    {
+      img_main: {
+        img_pc:
+          "https://res.cloudinary.com/rubiescloud/image/upload/v1737436375/aristino/1_030e851ef0754c7caaee4e74a2bf9805_sf0exe.webp",
+        img_mb:
+          "https://res.cloudinary.com/rubiescloud/image/upload/v1737436375/aristino/1_030e851ef0754c7caaee4e74a2bf9805_sf0exe.webp",
+        title: "BUSINESS COLLECTION",
+        link: "/collections/aristino-business",
+      },
+      img_sub: [
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436410/aristino/2_c377d36bf8854da1bfe70fcf30a8e9ae_bhfji4.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436410/aristino/2_c377d36bf8854da1bfe70fcf30a8e9ae_bhfji4.webp",
+          title: "Áo khoác bán chạy",
+          desc: "ÁO KHOÁC",
+          link: "/collections/ao-khoac",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436411/aristino/3_b91406561b2b46bd90236c68b6d41551_cbc5bb.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436411/aristino/3_b91406561b2b46bd90236c68b6d41551_cbc5bb.webp",
+          title: "Thời trang bán chạy",
+          desc: "NEW ARRIVAL",
+        },
+      ],
+      link: "/collections/bo-suu-tap",
+      title: "TIMELESS ELEGANCE",
+    },
+  ];
+
+  const bannerCateSlide = [
+    {
+      img: [
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436586/aristino/4_444bb0ee01864ec49a5dbd39f55de5fd_feoolu.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436586/aristino/4_444bb0ee01864ec49a5dbd39f55de5fd_feoolu.webp",
+          title: "PHONG THÁI DOANH NHÂN",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436594/aristino/giay_uaehag.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436594/aristino/giay_uaehag.webp",
+          title: "ELEGANCE LEADER",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436596/aristino/5_35c1170d88d348ed878bb30f4bdf67ef_unxfru.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436596/aristino/5_35c1170d88d348ed878bb30f4bdf67ef_unxfru.webp",
+          title: "ÁO SƠ MI KNIT NHẬT CHỐNG NHĂN",
+        },
+      ],
+      link: "/collections/phong-thai-doanh-nhan",
+      title: "ARISTINO BUSINESS",
+    },
+    {
+      img: [
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436619/aristino/golf_2_h1mhpg.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436619/aristino/golf_2_h1mhpg.webp",
+          title: "GIAO ĐIỂM COLLECTION",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436643/aristino/golf_1_vexm8b.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436643/aristino/golf_1_vexm8b.webp",
+          title: "ÁO POLO ANTI UV",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436645/aristino/slide_3_pr94mz.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436645/aristino/slide_3_pr94mz.webp",
+          title: "TECH GOLF DYNAMICFIT TROUSERS",
+        },
+      ],
+      link: "/collections/aristino-golf",
+      title: "ARISTINO",
+      highlight: "GOLF",
+    },
+    {
+      img: [
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436665/aristino/11_4761fd16507d41149bfc546fb34b0dbb_dkfuuf.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436665/aristino/11_4761fd16507d41149bfc546fb34b0dbb_dkfuuf.webp",
+          title: "Áo sơ mi nam casual style",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436673/aristino/13_087e3095779c469ea9a485d398785a7b_vviby0.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436673/aristino/13_087e3095779c469ea9a485d398785a7b_vviby0.webp",
+          title: "quần âu nam casual style",
+        },
+        {
+          img_pc:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436676/aristino/12_d2sxbh.webp",
+          img_mb:
+            "https://res.cloudinary.com/rubiescloud/image/upload/v1737436676/aristino/12_d2sxbh.webp",
+          title: "PHỤ KIỆN đồ da cao cấp",
+        },
+      ],
+      link: "/collections/tu-do-quy-ong",
+      title: "TỦ ĐỒ QUÝ ÔNG",
+    },
+  ];
+
   return (
     <>
       <main className="home">
@@ -102,7 +222,9 @@ const Home = () => {
         <section className="section brand">
           <div className="container-fluid pd-0">
             <Swiper
+              modules={[Autoplay, Pagination]}
               spaceBetween={0}
+              autoplay={{ delay: 4000 }}
               breakpoints={{
                 0: {
                   slidesPerView: 2,
@@ -126,6 +248,12 @@ const Home = () => {
           </div>
         </section>
         <VideoHome />
+        {bannerCateGrids.map((item, index) => (
+          <BannerCate key={index} type="grid" data={item} />
+        ))}
+        {bannerCateSlide.map((item, index) => (
+          <BannerCate key={index} type="slide" data={item} />
+        ))}
       </main>
     </>
   );
