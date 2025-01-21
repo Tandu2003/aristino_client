@@ -14,33 +14,33 @@ import "./Home.scss";
 const Home = () => {
   const sliderList = [
     {
-      img_pc:
+      desktopImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737121739/aristino/kv-tet_ilnckf.webp",
-      img_mb:
+      mobileImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737122634/aristino/artboard-30_ouvml4.webp",
       title: "Tết",
       link: "/pages/bo-suu-tap-do-da-aristino-2025",
     },
     {
-      img_pc:
+      desktopImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737121740/aristino/z6121842896280_d535a763ba7299ce388c76ca62068cda_ci3juo.webp",
-      img_mb:
+      mobileImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737122640/aristino/z6121843274480_ddcd644b70a5811fd89e3706cb96f647_eiktjs.webp",
       title: "Bộ sưu tập Sơ mi Hà Nội",
       link: "/pages/bo-suu-tap-so-mi-ha-noi-aristino-2025",
     },
     {
-      img_pc:
+      desktopImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737121750/aristino/destop-ngang--2880-1080-8_qok6tw.webp",
-      img_mb:
+      mobileImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737122645/aristino/mobile_doc-_1000x1986-8_wll3dj.webp",
       title: "Đồ da",
       link: "/pages/bo-suu-tap-do-da-aristino-2025",
     },
     {
-      img_pc:
+      desktopImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737121744/aristino/banner-aristino-pc_hmfrhm.webp",
-      img_mb:
+      mobileImage:
         "https://res.cloudinary.com/rubiescloud/image/upload/v1737122647/aristino/huyenthoaiphuongdong-mb-2_moh0l7.webp",
       title: "Bộ sưu tập Phương Đông",
       link: "/collections/huyen-thoai-phuong-dong",
@@ -77,120 +77,120 @@ const Home = () => {
 
   const bannerCateGrids = [
     {
-      img_main: {
-        img_pc:
+      featuredImage: {
+        desktopImage:
           "https://res.cloudinary.com/rubiescloud/image/upload/v1737436375/aristino/1_030e851ef0754c7caaee4e74a2bf9805_sf0exe.webp",
-        img_mb:
+        mobileImage:
           "https://res.cloudinary.com/rubiescloud/image/upload/v1737436375/aristino/1_030e851ef0754c7caaee4e74a2bf9805_sf0exe.webp",
         title: "BUSINESS COLLECTION",
         link: "/collections/aristino-business",
       },
-      img_sub: [
+      subImages: [
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436410/aristino/2_c377d36bf8854da1bfe70fcf30a8e9ae_bhfji4.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436410/aristino/2_c377d36bf8854da1bfe70fcf30a8e9ae_bhfji4.webp",
           title: "Áo khoác bán chạy",
           desc: "ÁO KHOÁC",
           link: "/collections/ao-khoac",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436411/aristino/3_b91406561b2b46bd90236c68b6d41551_cbc5bb.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436411/aristino/3_b91406561b2b46bd90236c68b6d41551_cbc5bb.webp",
           title: "Thời trang bán chạy",
           desc: "NEW ARRIVAL",
         },
       ],
-      link: "/collections/bo-suu-tap",
-      title: "TIMELESS ELEGANCE",
+      categoryLink: "/collections/bo-suu-tap",
+      categoryTitle: "TIMELESS ELEGANCE",
     },
   ];
 
   const bannerCateSlide = [
     {
-      img: [
+      images: [
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436586/aristino/4_444bb0ee01864ec49a5dbd39f55de5fd_feoolu.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436586/aristino/4_444bb0ee01864ec49a5dbd39f55de5fd_feoolu.webp",
           title: "PHONG THÁI DOANH NHÂN",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436594/aristino/giay_uaehag.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436594/aristino/giay_uaehag.webp",
           title: "ELEGANCE LEADER",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436596/aristino/5_35c1170d88d348ed878bb30f4bdf67ef_unxfru.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436596/aristino/5_35c1170d88d348ed878bb30f4bdf67ef_unxfru.webp",
           title: "ÁO SƠ MI KNIT NHẬT CHỐNG NHĂN",
         },
       ],
-      link: "/collections/phong-thai-doanh-nhan",
-      title: "ARISTINO BUSINESS",
+      categoryLink: "/collections/phong-thai-doanh-nhan",
+      categoryTitle: "ARISTINO BUSINESS",
     },
     {
-      img: [
+      images: [
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436619/aristino/golf_2_h1mhpg.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436619/aristino/golf_2_h1mhpg.webp",
           title: "GIAO ĐIỂM COLLECTION",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436643/aristino/golf_1_vexm8b.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436643/aristino/golf_1_vexm8b.webp",
           title: "ÁO POLO ANTI UV",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436645/aristino/slide_3_pr94mz.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436645/aristino/slide_3_pr94mz.webp",
           title: "TECH GOLF DYNAMICFIT TROUSERS",
         },
       ],
-      link: "/collections/aristino-golf",
-      title: "ARISTINO",
-      highlight: "GOLF",
+      categoryLink: "/collections/aristino-golf",
+      categoryTitle: "ARISTINO",
+      categoryHighlight: "GOLF",
     },
     {
-      img: [
+      images: [
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436665/aristino/11_4761fd16507d41149bfc546fb34b0dbb_dkfuuf.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436665/aristino/11_4761fd16507d41149bfc546fb34b0dbb_dkfuuf.webp",
           title: "Áo sơ mi nam casual style",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436673/aristino/13_087e3095779c469ea9a485d398785a7b_vviby0.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436673/aristino/13_087e3095779c469ea9a485d398785a7b_vviby0.webp",
           title: "quần âu nam casual style",
         },
         {
-          img_pc:
+          desktopImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436676/aristino/12_d2sxbh.webp",
-          img_mb:
+          mobileImage:
             "https://res.cloudinary.com/rubiescloud/image/upload/v1737436676/aristino/12_d2sxbh.webp",
           title: "PHỤ KIỆN đồ da cao cấp",
         },
       ],
-      link: "/collections/tu-do-quy-ong",
-      title: "TỦ ĐỒ QUÝ ÔNG",
+      categoryLink: "/collections/tu-do-quy-ong",
+      categoryTitle: "TỦ ĐỒ QUÝ ÔNG",
     },
   ];
 
@@ -210,9 +210,9 @@ const Home = () => {
               <SwiperSlide key={index}>
                 <Link to={item.link}>
                   <picture>
-                    <source media="(min-width: 992px)" srcSet={item.img_pc} />
-                    <source media="(max-width: 991px)" srcSet={item.img_mb} />
-                    <img src={item.img_pc} alt={item.title} />
+                    <source media="(min-width: 992px)" srcSet={item.desktopImage} />
+                    <source media="(max-width: 991px)" srcSet={item.mobileImage} />
+                    <img src={item.desktopImage} alt={item.title} />
                   </picture>
                 </Link>
               </SwiperSlide>
@@ -249,10 +249,10 @@ const Home = () => {
         </section>
         <VideoHome />
         {bannerCateGrids.map((item, index) => (
-          <BannerCate key={index} type="grid" data={item} />
+          <BannerCate key={`grid-${index}`} type="grid" data={item} />
         ))}
         {bannerCateSlide.map((item, index) => (
-          <BannerCate key={index} type="slide" data={item} />
+          <BannerCate key={`slide-${index}`} type="slide" data={item} />
         ))}
       </main>
     </>

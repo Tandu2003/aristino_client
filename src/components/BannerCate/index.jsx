@@ -20,11 +20,13 @@ const BannerCate = ({ type, data }) => {
               <h3>
                 <IconPattern />
                 <span>
-                  {data.title}
-                  {data.highlight && <span style={{ color: "#68bd46" }}> {data.highlight}</span>}
+                  {data.categoryTitle}
+                  {data.categoryHighlight && (
+                    <span style={{ color: "#68bd46" }}> {data.categoryHighlight}</span>
+                  )}
                 </span>
               </h3>
-              <Link to={data.link} className="btn-kg btn-outline-2">
+              <Link to={data.categoryLink} className="btn-kg btn-outline-2">
                 <span>Xem tất cả</span>
                 <IconSent />
               </Link>
@@ -42,45 +44,51 @@ const BannerCate = ({ type, data }) => {
                         "--width-mb": 999,
                       }}
                     >
-                      <Link to={data.img_main.link}>
+                      <Link to={data.featuredImage.link}>
                         <picture>
-                          <source media="(min-width: 992px)" srcSet={data.img_main.img_pc} />
-                          <source media="(max-width: 991px)" srcSet={data.img_main.img_mb} />
-                          <img src={data.img_main.img_mb} alt={data.img_main.title} />
+                          <source
+                            media="(min-width: 992px)"
+                            srcSet={data.featuredImage.desktopImage}
+                          />
+                          <source
+                            media="(max-width: 991px)"
+                            srcSet={data.featuredImage.mobileImage}
+                          />
+                          <img
+                            src={data.featuredImage.mobileImage}
+                            alt={data.featuredImage.title}
+                          />
                         </picture>
                       </Link>
                     </div>
                   </div>
                 </div>
 
-                {data.img_sub.map((item, index) => (
-                  <>
-                    <div className="col-right box-banner">
-                      <div
-                        key={index}
-                        className="aspect-ratio"
-                        style={{
-                          "--height-desk": 513,
-                          "--width-desk": 400,
-                          "--height-mb": 720,
-                          "--width-mb": 716,
-                        }}
-                      >
-                        <Link to={item.link}>
-                          <picture>
-                            <source media="(min-width: 992px)" srcSet={item.img_pc} />
-                            <source media="(max-width: 991px)" srcSet={item.img_mb} />
-                            <img src={item.img_mb} alt={item.title} />
-                          </picture>
-                        </Link>
-                      </div>
-                      <div className="desc">
-                        <Link to={item.link}>
-                          <span>{item.desc}</span>
-                        </Link>
-                      </div>
+                {data.subImages.map((item, index) => (
+                  <div key={`subImage-${index}`} className="col-right box-banner">
+                    <div
+                      className="aspect-ratio"
+                      style={{
+                        "--height-desk": 513,
+                        "--width-desk": 400,
+                        "--height-mb": 720,
+                        "--width-mb": 716,
+                      }}
+                    >
+                      <Link to={item.link}>
+                        <picture>
+                          <source media="(min-width: 992px)" srcSet={item.desktopImage} />
+                          <source media="(max-width: 991px)" srcSet={item.mobileImage} />
+                          <img src={item.mobileImage} alt={item.title} />
+                        </picture>
+                      </Link>
                     </div>
-                  </>
+                    <div className="desc">
+                      <Link to={item.link}>
+                        <span>{item.desc}</span>
+                      </Link>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
@@ -101,12 +109,12 @@ const BannerCate = ({ type, data }) => {
                     },
                   }}
                 >
-                  {data.img.map((item, index) => (
-                    <SwiperSlide key={index}>
+                  {data.images.map((item, index) => (
+                    <SwiperSlide key={`slideImage-${index}`}>
                       <picture>
-                        <source media="(min-width: 992px)" srcSet={item.img_pc} />
-                        <source media="(max-width: 991px)" srcSet={item.img_mb} />
-                        <img src={item.img_mb} alt={item.title} />
+                        <source media="(min-width: 992px)" srcSet={item.desktopImage} />
+                        <source media="(max-width: 991px)" srcSet={item.mobileImage} />
+                        <img src={item.mobileImage} alt={item.title} />
                       </picture>
                       <h4>
                         <Link to={item.link}>{item.title}</Link>

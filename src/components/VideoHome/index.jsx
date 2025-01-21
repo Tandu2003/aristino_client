@@ -10,23 +10,24 @@ const VideoHome = () => {
   return (
     <>
       <section className="section video">
-        <div class="color-background-1 gradient">
-          <div class="video-section isolate section-template--15032913395800__9aad5116-2a3e-4098-83fd-35a7fbcc63a5-padding">
-            <div class="page-width">
-              <div class="video-section__media" style={{ "--ratio-percent": "56.25%" }}>
+        <div className="color-background-1 gradient">
+          <div className="video-section isolate section-template--15032913395800__9aad5116-2a3e-4098-83fd-35a7fbcc63a5-padding">
+            <div className="page-width">
+              <div className="video-section__media" style={{ "--ratio-percent": "56.25%" }}>
                 <video
-                  playsinline="playsinline"
-                  muted=""
-                  loop="loop"
-                  controls="controls"
-                  preload="metadata"
+                  playsInline
+                  muted
+                  autoPlay
+                  loop
+                  controls
+                  preload="true"
                   poster={videoUrl}
-                  class="up"
+                  className="up"
                 >
                   <source src={videoUrl} type="video/mp4" />
                 </video>
                 <img src={videoUrl} alt="" />
-                <button id="start_video" class="start">
+                <button id="start_video" className="start">
                   <IconPlay />
                   <IconPause />
                 </button>
