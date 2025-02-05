@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Account from "../pages/Account";
 import LoginRegister from "../pages/LoginRegister";
+import Collections from "../pages/Collections";
 
 import AuthConext from "../context/AuthProvider";
 
@@ -15,6 +16,10 @@ const RouterApp = () => {
     {
       path: "/",
       element: <Home />,
+    },
+    {
+      path: "/collections/:slug",
+      element: <Collections />,
     },
     {
       path: "*",

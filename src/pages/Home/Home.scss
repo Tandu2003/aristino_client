@@ -1,34 +1,4 @@
 .home {
-  .brand {
-    .item-brand {
-      padding: 0 24px;
-      border-left: 1px solid #f6f6f6;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-
-      .logo {
-        height: 60px;
-        display: inline-flex;
-        align-items: center;
-      }
-    }
-
-    .link {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-  }
-
   .handmade {
     margin: 40px 0 30px;
 
