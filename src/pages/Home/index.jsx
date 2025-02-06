@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -190,6 +191,11 @@ const Home = () => {
       link: "/collections/ao-khoac",
     },
   ];
+
+  useEffect(() => {
+    document.title = "Thời trang nam cao cấp | Thương hiệu quần áo nam Aristino - ARISTINO";
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>

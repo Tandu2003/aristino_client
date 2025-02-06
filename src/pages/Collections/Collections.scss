@@ -58,95 +58,120 @@
           font-weight: 500;
         }
 
-        .sortbyfilter {
+        .sortByFilter {
           position: relative;
 
-          .layered-filter-title {
-            overflow: hidden;
+          .sort-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
             background: #fff;
-            position: relative;
-            height: 44px;
+            border: 1px solid #262626;
+            z-index: 1000;
 
-            .title-sortby {
-              overflow: hidden;
-              display: block;
-              font-size: 14px;
-              font-weight: 600;
-              height: 44px;
-              margin: 0 50px 0 16px;
+            ul {
+              margin: 0;
+              padding: 16px 0;
               display: flex;
-              align-items: center;
-              justify-content: space-between;
-              text-overflow: ellipsis;
-              user-select: none;
-              white-space: nowrap;
+              flex-direction: column;
+              list-style: none;
 
-              .sort-selected {
-                display: none;
-              }
+              li {
+                width: 100%;
+                position: relative;
+                cursor: pointer;
+                min-height: 20px;
+                height: 33px;
 
-              .icon {
-                display: block;
-                height: 43px;
-                line-height: 43px;
-                position: absolute;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                margin: auto;
-                text-align: center;
-                width: 43px;
-                transition: transform 0.3s;
-              }
-
-              &.hasSelected {
-                padding-top: 6px;
-
-                .text {
-                  font-size: 10px;
-                  left: 16px;
-                  position: absolute;
-                  top: 5px;
-                  color: #6d6d6d;
-                  font-weight: 400;
+                input[type="radio"] {
+                  display: none;
                 }
 
-                .sort-selected {
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                label {
+                  margin-bottom: 0;
                   display: block;
-                  overflow: hidden;
-                  padding-top: 6px;
-                  text-overflow: ellipsis;
-                  user-select: none;
+                  cursor: pointer;
+                  padding: 6px 20px;
                   white-space: nowrap;
                 }
+
+                input {
+                  position: absolute;
+                  top: 6px;
+                  left: 0;
+                  margin-top: 0;
+                  vertical-align: top;
+                  width: 16px;
+                  height: 16px;
+                  outline: none;
+                  appearance: none;
+
+                  &:before {
+                    content: "";
+                    position: absolute;
+                    left: 3px;
+                    top: 4px;
+                    margin: auto;
+                    z-index: 1;
+                    width: 10px;
+                    height: 5px;
+                    border: 1.5px solid #222;
+                    border-top-style: none;
+                    border-right-style: none;
+                    transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+                    transform: rotate(-45deg) scale(0, 0);
+                  }
+
+                  &:after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 0px;
+                    width: 16px;
+                    height: 16px;
+                    background-color: transparent;
+                    border: 1px solid rgba(0, 0, 0, 0.4);
+                    cursor: pointer;
+                    transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out;
+                    border-radius: 50%;
+                  }
+                }
+
+                &.default,
+                &.active,
+                &:not(.active):hover {
+                  background: #f6f6f6;
+                }
+
+                &.active input {
+                  &:before {
+                    border-color: #fff;
+                    transform: rotate(-45deg) scale(1, 1);
+                  }
+
+                  &:after {
+                    border: 1px solid black;
+                    background-color: black;
+                  }
+                }
               }
             }
           }
 
-          .layered-filter-dropdown {
-            padding: 0;
-            position: absolute;
-            left: auto !important;
-            right: 0;
-            margin: 0;
-            top: 0;
-            z-index: 4;
-            background: #fff;
-            border-top: 0;
-            border-radius: 0px;
-            top: 100% !important;
-            transform: none !important;
+          &.show {
+            svg {
+              transform: rotate(180deg);
+              transition: all 0.3s ease-in-out;
+            }
           }
 
-          .layered-filter-group.show {
-            .layered-filter-title .title-sortby .icon {
-              transform: rotate(180deg);
-            }
-
-            .layered-filter-dropdown {
-              border: 1px solid #262626;
-              margin-top: 1px;
-            }
+          svg {
+            transform: rotate(0deg);
+            transition: all 0.3s ease-in-out;
           }
         }
 
@@ -195,98 +220,6 @@
   }
 
   .layered-filter-group {
-    .sortBy ul {
-      margin: 0;
-      padding: 16px 0;
-      display: flex;
-      flex-direction: column;
-      list-style: none;
-
-      li {
-        width: 100%;
-        position: relative;
-        cursor: pointer;
-        min-height: 20px;
-        height: 33px;
-
-        input[type="radio"] {
-          display: none;
-        }
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-
-        label {
-          margin-bottom: 0;
-          display: block;
-          cursor: pointer;
-          padding: 6px 20px;
-          white-space: nowrap;
-        }
-
-        input {
-          position: absolute;
-          top: 6px;
-          left: 0;
-          margin-top: 0;
-          vertical-align: top;
-          width: 16px;
-          height: 16px;
-          outline: none;
-          appearance: none;
-
-          &:before {
-            content: "";
-            position: absolute;
-            left: 3px;
-            top: 4px;
-            margin: auto;
-            z-index: 1;
-            width: 10px;
-            height: 5px;
-            border: 1.5px solid #222;
-            border-top-style: none;
-            border-right-style: none;
-            transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
-            transform: rotate(-45deg) scale(0, 0);
-          }
-
-          &:after {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0px;
-            width: 16px;
-            height: 16px;
-            background-color: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.4);
-            cursor: pointer;
-            transition: border-color 0.2s ease-in-out, background 0.2s ease-in-out;
-            border-radius: 50%;
-          }
-        }
-
-        &.default,
-        &.active,
-        &:not(.active):hover {
-          background: #f6f6f6;
-        }
-
-        &.active input {
-          &:before {
-            border-color: #fff;
-            transform: rotate(-45deg) scale(1, 1);
-          }
-
-          &:after {
-            border: 1px solid black;
-            background-color: black;
-          }
-        }
-      }
-    }
-
     .sidebar-box {
       .sidebar-box-block {
         position: relative;

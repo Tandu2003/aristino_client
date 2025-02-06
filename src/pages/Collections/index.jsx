@@ -24,16 +24,24 @@ const Collections = () => {
   const collection = collections[slug];
 
   const [hideFilter, setHideFilter] = useState(false);
-  const [toggleShowMore, setToggleShowMore] = useState(Array(4).fill(false));
+  const [toggleShowMore, setToggleShowMore] = useState({});
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [filter, setFilter] = useState({});
   const [countShowProduct, setCountShowProduct] = useState(36);
+  const [toggleShowSort, setToggleShowSort] = useState(false);
 
-  const handleToggleShowMore = (index) => {
-    setToggleShowMore((prev) => {
-      const newToggleShowMore = [...prev];
-      newToggleShowMore[index] = !newToggleShowMore[index];
-      return newToggleShowMore;
+  const handleToggleShowMore = (key) => {
+    setToggleShowMore((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const handleRemoveFilter = (key) => {
+    setFilter((prev) => {
+      const newFilter = { ...prev };
+      delete newFilter[key];
+      return newFilter;
     });
   };
 
@@ -46,6 +54,8 @@ const Collections = () => {
         : { ...prev, [name]: [...newValues, value] };
     });
   };
+
+  const handleShowSort = () => setToggleShowSort((prev) => !prev);
 
   useEffect(() => {
     if (collection) {
@@ -139,23 +149,28 @@ const Collections = () => {
                           <span className="count">
                             <span>{`${listProduct.length} sản phẩm`}</span>
                           </span>
-                          <div className="sortByFilter">
+                          <div
+                            className={`sortByFilter${toggleShowSort ? " show" : ""}`}
+                            onClick={handleShowSort}
+                          >
                             <button className="btn-sortby">
                               <span>Sắp Xếp</span>
                               <IconDropDown />
                             </button>
-                            <ul className="hidden">
-                              {sortOptions.map((item, index) => (
-                                <li key={index}>
-                                  <input
-                                    type="radio"
-                                    value={item.value}
-                                    id={`cfb-sort-input-${index}`}
-                                  />
-                                  <label htmlFor={`cfb-sort-input-${index}`}>{item.name}</label>
-                                </li>
-                              ))}
-                            </ul>
+                            <div className={`sort-options${toggleShowSort ? "" : " hidden"}`}>
+                              <ul className="sort-options-list">
+                                {sortOptions.map((item, index) => (
+                                  <li key={index}>
+                                    <input
+                                      type="radio"
+                                      value={item.value}
+                                      id={`cfb-sort-input-${index}`}
+                                    />
+                                    <label htmlFor={`cfb-sort-input-${index}`}>{item.name}</label>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
                           </div>
                           <button
                             className="btn-filter"
@@ -204,6 +219,7 @@ const Collections = () => {
                         <div className="layered-filter-group ">
                           {Object.keys(filterOptions).map((key) => {
                             const { id, name, values } = filterOptions[key];
+
                             return (
                               <div className="sidebar-box filter-group" key={id}>
                                 <div className="sidebar-box-block">
@@ -212,32 +228,36 @@ const Collections = () => {
                                     data-toggle="collapse"
                                     href={`#${id}`}
                                     role="button"
-                                    aria-expanded="true"
-                                    aria-controls={`${id}`}
+                                    aria-expanded={!toggleShowMore[id]}
+                                    aria-controls={id}
+                                    onClick={() => handleToggleShowMore(id)}
                                   >
                                     <span>{name}</span>
                                     <span className="icon-control"></span>
                                   </div>
                                   <div
                                     id={id}
-                                    className={`sidebar-box-content ${id} collapse show`}
+                                    className={`sidebar-box-content ${id} collapse${
+                                      !toggleShowMore[id] ? " show" : ""
+                                    }`}
                                   >
                                     <ul className="checkbox-list">
-                                      {values.map((value, index) => {
+                                      {values.map((value, idx) => {
                                         const valueStr =
                                           typeof value === "object" ? value.value : value;
+
                                         return (
-                                          <li key={index}>
+                                          <li key={idx}>
                                             <input
                                               type="checkbox"
-                                              id={`${id}-p${index + 1}`}
+                                              id={`${id}-p${idx + 1}`}
                                               value={valueStr}
                                               name={id}
-                                              checked={(filter[id] ?? []).includes(valueStr)}
+                                              checked={(filter[id] || []).includes(valueStr)}
                                               onChange={handleFilter}
                                             />
                                             <label
-                                              htmlFor={`${id}-p${index + 1}`}
+                                              htmlFor={`${id}-p${idx + 1}`}
                                               style={typeof value === "object" ? value.style : {}}
                                             >
                                               {valueStr}
@@ -279,16 +299,7 @@ const Collections = () => {
                                   {index < values.length - 1 && ", "}
                                 </b>
                               ))}
-                              <div
-                                className="filter-tags-remove"
-                                onClick={() =>
-                                  setFilter((prev) =>
-                                    Object.fromEntries(
-                                      Object.entries(prev).filter(([k]) => k !== key)
-                                    )
-                                  )
-                                }
-                              >
+                              <div className="filter-tags-remove" onClick={handleRemoveFilter(key)}>
                                 <IconClose />
                               </div>
                             </div>
