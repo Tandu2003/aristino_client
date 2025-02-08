@@ -4,12 +4,13 @@
 
   .breadcrumb-list {
     .breadcrumb-arrows > li a {
-      color: var(--skin-text-color-2);
+      // color: var(--skin-text-color-2);
+      color: var(--skin-text-color-1);
     }
 
     overflow: hidden;
 
-    .breadcrumb-arrows { 
+    .breadcrumb-arrows {
       font-size: 12px;
       line-height: 18px;
       font-weight: 400;
@@ -20,6 +21,7 @@
       list-style: none;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
       > li {
         display: inline-flex;

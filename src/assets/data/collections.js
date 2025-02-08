@@ -10,7 +10,7 @@ const collections = {
 
     breadcrumbs: [{ name: "BỘ SƯU TẬP", link: "/collections/bo-suu-tap" }],
     desc: "Bộ sưu tập mới 2024",
-    listProduct: Array(100).fill(products[0]),
+    listProduct: products,
   },
   "hang-moi": {
     title: "Hàng mới nhất với chất liệu cao cấp, mang đến sự lịch lãm cho quý ông - ARISTINO",
@@ -21,13 +21,13 @@ const collections = {
 
     breadcrumbs: [{ name: "Hàng Mới", link: "/collections/hang-moi" }],
     desc: "Bộ sưu tập mới 2025",
-    listProduct: Array(100).fill(products[0]),
+    listProduct: products,
   },
   "tat-ca-quan": {
     title: "Quần Nam thời trang đa dạng, từ phong cách thanh lịch đến cá tính - ARISTINO",
     breadcrumbs: [{ name: "Quần", link: "/collections/quan" }],
     totalProduct: 100,
-    listProduct: Array(100).fill(products[0]),
+    listProduct: products,
   },
 };
 
