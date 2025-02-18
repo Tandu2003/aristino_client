@@ -18,6 +18,7 @@ import { ReactComponent as IconShowMore } from "../../assets/svg/showmore.svg";
 import { collections } from "../../assets/data/collections";
 import { filterOptions } from "../../assets/data/filterOptions";
 import { sortOptions } from "../../assets/data/sortOptions";
+// import { products } from "../../assets/data/products";
 
 const Collections = () => {
   const { slug } = useParams();
@@ -290,21 +291,22 @@ const Collections = () => {
                   <div className="filter-wrapper-row">
                     <div className="layered-filter-tags-wrapper">
                       <div className="layered-filter-tags">
-                        {Object.entries(filter).map(([key, values]) =>
-                          values.length > 0 ? (
-                            <div key={key} className="filter-tags opened">
-                              {values.map((value, index) => (
-                                <b key={index}>
-                                  {value}
-                                  {index < values.length - 1 && ", "}
-                                </b>
-                              ))}
-                              <div className="filter-tags-remove" onClick={handleRemoveFilter(key)}>
-                                <IconClose />
-                              </div>
+                        {Object.entries(filter).map(([key, values]) => (
+                          <div key={key} className="filter-tags opened">
+                            {values.map((value, index) => (
+                              <b key={index}>
+                                {value}
+                                {index < values.length - 1 && ", "}
+                              </b>
+                            ))}
+                            <div
+                              className="filter-tags-remove"
+                              onClick={() => handleRemoveFilter(key)}
+                            >
+                              <IconClose />
                             </div>
-                          ) : null
-                        )}
+                          </div>
+                        ))}
 
                         {Object.values(filter).some((value) => value.length > 0) && (
                           <div className="filter-tags remove-all" onClick={() => setFilter({})}>
@@ -323,25 +325,31 @@ const Collections = () => {
                       </div>
                     ) : (
                       <>
-                        <div class="grid-empty alert-info">
+                        <div className="grid-empty alert-info">
                           Chưa có sản phẩm nào trong danh mục này
                         </div>
                       </>
                     )}
                   </div>
-                  <div className="actions-wrapper-row">
-                    <div className="show-text">
-                      Đang hiển thị
-                      <span className="js-ResultCountCurrent"> {countShowProduct} </span>
-                      trong số<span className="js-ResultCount"> {listProduct.length} sản phẩm</span>
+                  {countShowProduct <= listProduct.length && (
+                    <div className="actions-wrapper-row">
+                      <div className="show-text">
+                        Đang hiển thị
+                        <span className="js-ResultCountCurrent"> {countShowProduct} </span>
+                        trong số
+                        <span className="js-ResultCount"> {listProduct.length} sản phẩm</span>
+                      </div>
+                      <div className="show-more">
+                        <button
+                          className="btn-kg btn-dark btn-more"
+                          onClick={handleShowMoreProduct}
+                        >
+                          <span>Xem tất cả</span>
+                          <IconShowMore />
+                        </button>
+                      </div>
                     </div>
-                    <div className="show-more">
-                      <button className="btn-kg btn-dark btn-more" onClick={handleShowMoreProduct}>
-                        <span>Xem tất cả</span>
-                        <IconShowMore />
-                      </button>
-                    </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
