@@ -93,6 +93,7 @@ const LoginRegister = ({ login, register }) => {
     }
     setFormErrorLogin({ ...formErrorLogin, errorEmail: "", errorPassword: "" });
     const account = { email, password };
+
     try {
       const response = await Auth.login(account);
 
@@ -102,10 +103,13 @@ const LoginRegister = ({ login, register }) => {
       }
       setFormErrorLogin({ ...formErrorLogin, errorStatus: "" });
       setUser(response.data.user);
-      setLoggedIn(true);
-      navigate("/");
+      setLoggedIn(response.data.loggedIn);
+      navigate("/", { replace: true });
     } catch (error) {
-      setFormErrorLogin({ ...formErrorLogin, errorStatus: error.response.data.message });
+      setFormErrorLogin({
+        ...formErrorLogin,
+        errorStatus: error.response?.data.message || "Server không hoạt động",
+      });
     }
   };
 
@@ -190,13 +194,11 @@ const LoginRegister = ({ login, register }) => {
         errorStatus: "",
         successStatus: response.data.message,
       });
-      setUser(response.data.user);
-      setLoggedIn(true);
-      setTimeout(() => {
-        navigate("/");
-      }, 50000);
     } catch (error) {
-      setFormErrorRegister({ ...formErrorRegister, errorStatus: error.response.data.message });
+      setFormErrorRegister({
+        ...formErrorRegister,
+        errorStatus: error.response?.data.message || "Server không hoạt động",
+      });
     }
   };
 
@@ -208,7 +210,36 @@ const LoginRegister = ({ login, register }) => {
     alert("Chức năng đang phát triển");
   };
 
-  useEffect(() => {}, [location]);
+  useEffect(() => {
+    if (location.pathname === "/account/login") {
+      setFormLogin({ email: "", password: "" });
+      setFormErrorLogin({ errorEmail: "", errorPassword: "", errorStatus: "" });
+      setFormErrorForgotPassword({ errorRecoverEmail: "", errorStatus: "" });
+      setFormErrorRegister({
+        errorEmail: "",
+        errorPassword: "",
+        errorLastName: "",
+        errorFirstName: "",
+        errorStatus: "",
+        successStatus: "",
+      });
+      setIsShowForgotPassword(false);
+    }
+    if (location.pathname === "/account/register") {
+      setFormRegister({ email: "", password: "", lastName: "", firstName: "" });
+      setFormErrorLogin({ errorEmail: "", errorPassword: "", errorStatus: "" });
+      setFormErrorForgotPassword({ errorRecoverEmail: "", errorStatus: "" });
+      setFormErrorRegister({
+        errorEmail: "",
+        errorPassword: "",
+        errorLastName: "",
+        errorFirstName: "",
+        errorStatus: "",
+        successStatus: "",
+      });
+      setIsShowForgotPassword(false);
+    }
+  }, [location]);
 
   useEffect(() => {
     document.title = register
@@ -378,6 +409,9 @@ const LoginRegister = ({ login, register }) => {
                                 name="recover_email"
                                 id="recover-email"
                                 className="form-control"
+                                onChange={(e) => {
+                                  setFormForgotPassword({ recoverEmail: e.target.value });
+                                }}
                               />
                               <span className="text-error">
                                 {formErrorForgotPassword.errorRecoverEmail}

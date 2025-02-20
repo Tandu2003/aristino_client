@@ -35,7 +35,7 @@ const RouterApp = () => {
   const navigateRoutes = [
     {
       path: "/account/login",
-      element: loggedIn ? <Navigate to="/account" replace /> : <LoginRegister login={true} />,
+      element: loggedIn ? <Navigate to="/" replace /> : <LoginRegister login={true} />,
     },
     {
       path: "/account/register",

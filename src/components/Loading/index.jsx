@@ -1,3 +1,5 @@
+import "./Loading.scss";
+
 const index = () => {
   return (
     <>

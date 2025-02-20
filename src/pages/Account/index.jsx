@@ -145,6 +145,9 @@ const Account = () => {
                             className="form-control"
                             id="birthday"
                             value={formatDate(birthday)}
+                            onChange={(e) => {
+                              // setBirthdayValue(e.target.value);
+                            }}
                           />
                         </div>
                       </div>
