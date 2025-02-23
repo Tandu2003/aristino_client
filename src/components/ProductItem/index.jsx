@@ -7,17 +7,6 @@ import { ReactComponent as IconAdd } from "../../assets/svg/add.svg";
 import { ReactComponent as IconMore } from "../../assets/svg/more.svg";
 
 const ProductItem = ({ product, index }) => {
-  const toSlug = (str) => {
-    return str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu tiếng Việt
-      .replace(/\s+/g, "-") // Thay khoảng trắng bằng "-"
-      .replace(/[^a-z0-9-]/g, "") // Xóa ký tự đặc biệt
-      .replace(/-+/g, "-") // Xóa dấu "-" trùng
-      .trim();
-  };
-
   return (
     <>
       <div className={`pro-title pro-loop pro-t1 ${index}`}>
@@ -25,16 +14,16 @@ const ProductItem = ({ product, index }) => {
           <div className="pro-loop-head">
             <div className="pro-loop-img">
               <picture className="has-hover">
-                <source media="(min-width: 768px)" srcSet={product.images.pc} />
-                <source media="(min-width: 768px)" srcSet={product.images.mb} />
+                <source media="(min-width: 768px)" srcSet={product.image.desktop} />
+                <source media="(min-width: 768px)" srcSet={product.image.mobile} />
                 <img
-                  src={product.images.pc}
+                  src={product.image.desktop}
                   alt={product.name}
                   className="img-default ls-is-cached lazyloaded"
                 />
               </picture>
             </div>
-            <Link to={`/products/${toSlug(product.name)}`} className="pro-loop-link" />
+            <Link to={`/products/${product.slug}`} className="pro-loop-link" />
             <div className="pro-loop-wishlist">
               <button type="button" className="btn-wishlist">
                 <IconWishList />
@@ -47,25 +36,25 @@ const ProductItem = ({ product, index }) => {
             </div>
             <div className="pro-loop-swatch">
               <ul className="swatch-list">
-                {product.color.map((color, index) => (
+                {product.variants.map((variant, index) => (
                   <li key={index} className="swatch-item">
                     <span
                       className="bg type-1 default"
                       style={{
-                        backgroundImage: `url(${color.images[0]})`,
+                        backgroundImage: `url(${variant.images[0]})`,
                       }}
                     ></span>
                   </li>
                 ))}
               </ul>
-              <Link to={`/products/${toSlug(product.name)}`} className="more">
+              <Link to={`/products/${product.slug}`} className="more">
                 <IconMore />
               </Link>
             </div>
           </div>
           <div className="pro-loop-body">
             <h3 className="pro-loop-title">
-              <Link to={`/products/${toSlug(product.name)}`} title={product.name}>
+              <Link to={`/products/${product.slug}`} title={product.name}>
                 {product.name}
               </Link>
             </h3>

@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 import { products } from "../../assets/data/products";
-import toSlug from "../../utils/toSlug";
 import { collections } from "../../assets/data/collections";
 
 import NotFound from "../NotFound";
@@ -31,7 +30,7 @@ import { ReactComponent as IconCirclePattern } from "../../assets/svg/circlepatt
 
 const ProductDetails = () => {
   const { slug } = useParams();
-  const product = products.find((product) => toSlug(product.name) === slug);
+  const product = products.find((product) => product.slug === slug);
 
   const breadcrumbs = [
     {
@@ -51,9 +50,9 @@ const ProductDetails = () => {
 
   const sizes = sizeFull[product.typeSize];
 
-  const [activeColorName, setActiveColorName] = useState(product.color[0].name);
+  const [activeColorName, setActiveColorName] = useState(product.variants[0].color);
   const [hoverColorName, setHoverColorName] = useState(activeColorName);
-  const [activeSize, setActiveSize] = useState(product.size[0]);
+  const [activeSize, setActiveSize] = useState(product.variants[0].sizes[0].size);
   const [tabActive, setTabActive] = useState("tab-1");
 
   const handleTabActive = (tab) => {
@@ -142,20 +141,20 @@ const ProductDetails = () => {
                             </span>
                           </div>
                           <div className="select-swap select-swap-color">
-                            {product.color.map((color, index) => (
+                            {product.variants.map((variant, index) => (
                               <div
                                 key={index}
                                 className="swatch-element"
-                                onMouseEnter={() => setHoverColorName(color.name)}
+                                onMouseEnter={() => setHoverColorName(variant.color)}
                                 onMouseLeave={() => setHoverColorName("")}
-                                onClick={() => setActiveColorName(color.name)}
+                                onClick={() => setActiveColorName(variant.color)}
                               >
                                 <label
                                   className={`aspect-ratio${
-                                    color.name === activeColorName ? " sd" : ""
+                                    variant.color === activeColorName ? " sd" : ""
                                   }`}
                                   style={{
-                                    background: `url(${color.images[0]})`,
+                                    background: `url(${variant.images[0]})`,
                                     backgroundSize: "contain",
                                   }}
                                 ></label>
@@ -177,11 +176,17 @@ const ProductDetails = () => {
                               <div
                                 key={index}
                                 className="swatch-element"
-                                onClick={() => product.size.includes(size) && setActiveSize(size)}
+                                onClick={() =>
+                                  product.variants.some((variant) =>
+                                    variant.sizes.some((s) => s.size === size && s.quantity > 0)
+                                  ) && setActiveSize(size)
+                                }
                               >
                                 <label
                                   className={`aspect-ratio${
-                                    product.size.includes(size)
+                                    product.variants.some((variant) =>
+                                      variant.sizes.some((s) => s.size === size && s.quantity > 0)
+                                    )
                                       ? size === activeSize
                                         ? " sd" // Nếu là size đang active
                                         : ""
@@ -289,47 +294,53 @@ const ProductDetails = () => {
                             )}
                             <li>
                               <strong>Màu sắc: </strong>
-                              {product.color.map((color, index) => (
+                              {product.variants.map((variant, index) => (
                                 <span key={index}>
-                                  {color.name}
-                                  {index < product.color.length - 1 ? ", " : "."}
+                                  {variant.color}
+                                  {index < product.variants.length - 1 ? ", " : "."}
                                 </span>
                               ))}
                             </li>
                             <li>
                               <strong>Size: </strong>
-                              {product.size.map((size, index) => (
+                              {[
+                                ...new Set(
+                                  product.variants.flatMap((variant) =>
+                                    variant.sizes.map((s) => s.size)
+                                  )
+                                ),
+                              ].map((size, index, array) => (
                                 <span key={index}>
                                   {size}
-                                  {index < product.size.length - 1 ? ", " : "."}
+                                  {index < array.length - 1 ? ", " : "."}
                                 </span>
                               ))}
                             </li>
                             <li>
                               <strong>Sản xuất: </strong>
-                              {product.manufacture}
+                              {product.manufacturer}
                               {"."}
                             </li>
                           </ul>
-                          {product.preserve && (
+                          {product.preserves && (
                             <>
                               <p>
                                 <strong>Hướng dẫn bảo quản và giặt ủi: </strong>
                               </p>
                               <ul>
-                                {product.preserve.map((preserve, index) => (
+                                {product.preserves.map((preserve, index) => (
                                   <li key={index}>{preserve}</li>
                                 ))}
                               </ul>
                             </>
                           )}
-                          {product.note && (
+                          {product.notes && (
                             <>
                               <p>
                                 <strong>Lưu ý: </strong>
                               </p>
                               <ul>
-                                {product.note.map((note, index) => (
+                                {product.notes.map((note, index) => (
                                   <li key={index}>{note}</li>
                                 ))}
                               </ul>
