@@ -20,9 +20,15 @@ const logout = async () => {
   return response;
 };
 
+const loginGoogle = async (account) => {
+  const response = await api.post("/auth/login-google", account);
+  return response;
+};
+
 export const Auth = {
   getLogin,
   login,
   register,
   logout,
+  loginGoogle,
 };

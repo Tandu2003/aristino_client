@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
           setLoggedIn(false);
         }
       } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error.response?.data.message || "Server không phản hồi");
       }
       setLoading(false);
     };

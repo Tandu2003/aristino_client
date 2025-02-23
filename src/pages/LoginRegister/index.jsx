@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
 
 import { Auth } from "../../api/auth";
 import AuthConext from "../../context/AuthProvider";
@@ -202,9 +203,49 @@ const LoginRegister = ({ login, register }) => {
     }
   };
 
-  const handleLoginGoogle = async (e) => {
-    alert("Chức năng đang phát triển");
-  };
+  const handleLoginGoogle = useGoogleLogin({
+    onFail: (error) => {
+      console.log("Login failed: ", error);
+    },
+    onSuccess: async (response) => {
+      console.log("Login success: ", response);
+
+      const { access_token, token_type } = response;
+
+      try {
+        const infoUser = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: {
+            Authorization: `${token_type} ${access_token}`,
+          },
+        });
+
+        const user = await infoUser.json();
+
+        // Gửi user info lên backend để xác thực
+        const res = await Auth.loginGoogle(user);
+        setUser(res.data.user);
+        setLoggedIn(res.data.loggedIn);
+        navigate("/", { replace: true });
+      } catch (error) {
+        console.error("Login error:", error);
+
+        const errorMessage = error.response?.data.message || "Server không hoạt động";
+
+        if (location.pathname === "/account/login") {
+          setFormErrorLogin({
+            ...formErrorLogin,
+            errorStatus: errorMessage,
+          });
+        }
+        if (location.pathname === "/account/register") {
+          setFormErrorRegister({
+            ...formErrorRegister,
+            errorStatus: errorMessage,
+          });
+        }
+      }
+    },
+  });
 
   const handleLoginFacebook = async (e) => {
     alert("Chức năng đang phát triển");
@@ -631,16 +672,15 @@ const LoginRegister = ({ login, register }) => {
                       <span>Hoặc</span>
                     </div>
                     <div className="list">
-                      <Link
+                      <button
                         aria-label="Đăng nhập Google"
                         title="Đăng nhập Google"
-                        to="#"
                         className="google-login btn"
                         onClick={handleLoginGoogle}
                       >
                         <IconGoogle />
                         <span>Đăng nhập Google</span>
-                      </Link>
+                      </button>
                       <Link
                         aria-label="Đăng nhập Facebook"
                         title="Đăng nhập Facebook"
