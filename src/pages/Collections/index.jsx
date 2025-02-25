@@ -141,7 +141,7 @@ const Collections = () => {
                       <IconPattern />
                       {breadcrumbs[0].name}
                     </h1>
-                    {desc && <p>{desc}</p>}
+                    {desc && <div>{desc}</div>}
                   </div>
                   <div className="heading-inner-right">
                     <div className="actions">
@@ -291,22 +291,25 @@ const Collections = () => {
                   <div className="filter-wrapper-row">
                     <div className="layered-filter-tags-wrapper">
                       <div className="layered-filter-tags">
-                        {Object.entries(filter).map(([key, values]) => (
-                          <div key={key} className="filter-tags opened">
-                            {values.map((value, index) => (
-                              <b key={index}>
-                                {value}
-                                {index < values.length - 1 && ", "}
-                              </b>
-                            ))}
-                            <div
-                              className="filter-tags-remove"
-                              onClick={() => handleRemoveFilter(key)}
-                            >
-                              <IconClose />
-                            </div>
-                          </div>
-                        ))}
+                        {Object.entries(filter).map(
+                          ([key, values]) =>
+                            values.length > 0 && (
+                              <div key={key} className="filter-tags opened">
+                                {values.map((value, index) => (
+                                  <b key={index}>
+                                    {value}
+                                    {index < values.length - 1 && ", "}
+                                  </b>
+                                ))}
+                                <div
+                                  className="filter-tags-remove"
+                                  onClick={() => handleRemoveFilter(key)}
+                                >
+                                  <IconClose />
+                                </div>
+                              </div>
+                            )
+                        )}
 
                         {Object.values(filter).some((value) => value.length > 0) && (
                           <div className="filter-tags remove-all" onClick={() => setFilter({})}>

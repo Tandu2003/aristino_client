@@ -77,7 +77,22 @@ const ProductDetails = () => {
           <div className="productdetail-inner">
             <div className="container-fluid p8">
               <div className="productdetail-row">
-                <div className="productdetail-left productdetail-gallery"></div>
+                <div className="productdetail-left productdetail-gallery">
+                  <div className="slider-swiper swiper swiper-style">
+                    <div className="pr-gallery-list swiper-wrapper">
+                      {product.variants
+                        .find((variant) => variant.color === activeColorName)
+                        .images.map((image, index) => (
+                          <div
+                            className={`pr-gallery-item swiper-slide i-${index + 1}`}
+                            key={index}
+                          >
+                            <img src={image} alt={product.name} />
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
                 <div className="productdetail-right productdetail-info">
                   <Breadcrumb items={breadcrumbs} />
                   <div className="detail-wrapper">

@@ -61,7 +61,7 @@ const ProductItem = ({ product, index }) => {
             <div className="pro-loop-prices">
               <span className="price">
                 <span className="normal">{product.price.toLocaleString()}đ</span>
-                <del className="hidden">{product.price.toLocaleString()}đ</del>
+                {product.discount > 0 && <del>{product.price.toLocaleString()}đ</del>}
               </span>
               <div className="percent hidden">
                 <span>{product.discount}% off</span>
