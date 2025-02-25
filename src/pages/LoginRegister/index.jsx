@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 
 import { Auth } from "../../api/auth";
 import AuthConext from "../../context/AuthProvider";
@@ -11,6 +12,7 @@ import { ReactComponent as IconEye } from "../../assets/svg/eye.svg";
 import { ReactComponent as IconNotEye } from "../../assets/svg/noteye.svg";
 import { ReactComponent as IconGoogle } from "../../assets/svg/logingg.svg";
 import { ReactComponent as IconFacebook } from "../../assets/svg/loginfb.svg";
+import { loadFacebookSDK } from "../../utils/facebookSDK";
 
 const LoginRegister = ({ login, register }) => {
   const { setUser, setLoggedIn } = useContext(AuthConext);
@@ -208,8 +210,6 @@ const LoginRegister = ({ login, register }) => {
       console.log("Login failed: ", error);
     },
     onSuccess: async (response) => {
-      console.log("Login success: ", response);
-
       const { access_token, token_type } = response;
 
       try {
@@ -227,8 +227,6 @@ const LoginRegister = ({ login, register }) => {
         setLoggedIn(res.data.loggedIn);
         navigate("/", { replace: true });
       } catch (error) {
-        console.error("Login error:", error);
-
         const errorMessage = error.response?.data.message || "Server không hoạt động";
 
         if (location.pathname === "/account/login") {
@@ -247,8 +245,39 @@ const LoginRegister = ({ login, register }) => {
     },
   });
 
-  const handleLoginFacebook = async (e) => {
-    alert("Chức năng đang phát triển");
+  const handleLoginFacebook = async (response) => {
+    const { accessToken, userID } = response;
+
+    try {
+      await loadFacebookSDK();
+
+      const infoUser = await fetch(
+        `https://graph.facebook.com/v22.0/${userID}?fields=id,first_name,last_name,email,picture&access_token=${accessToken}`
+      );
+
+      const user = await infoUser.json();
+
+      // Gửi user info lên backend để xác thực
+      const res = await Auth.loginFacebook(user);
+      setUser(res.data.user);
+      setLoggedIn(res.data.loggedIn);
+      navigate("/", { replace: true });
+    } catch (error) {
+      const errorMessage = error.response?.data.message || "Server không hoạt động";
+
+      if (location.pathname === "/account/login") {
+        setFormErrorLogin({
+          ...formErrorLogin,
+          errorStatus: errorMessage,
+        });
+      }
+      if (location.pathname === "/account/register") {
+        setFormErrorRegister({
+          ...formErrorRegister,
+          errorStatus: errorMessage,
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -681,16 +710,22 @@ const LoginRegister = ({ login, register }) => {
                         <IconGoogle />
                         <span>Đăng nhập Google</span>
                       </button>
-                      <Link
-                        aria-label="Đăng nhập Facebook"
-                        title="Đăng nhập Facebook"
-                        to="#"
-                        className="facebook-login btn"
-                        onClick={handleLoginFacebook}
-                      >
-                        <IconFacebook />
-                        <span>Đăng nhập Facebook</span>
-                      </Link>
+                      <FacebookLogin
+                        autoLoad={false}
+                        onSuccess={handleLoginFacebook}
+                        fields="first_name,last_name,email,picture,id"
+                        render={({ onClick }) => (
+                          <button
+                            aria-label="Đăng nhập Facebook"
+                            title="Đăng nhập Facebook"
+                            className="facebook-login btn"
+                            onClick={onClick}
+                          >
+                            <IconFacebook />
+                            <span>Đăng nhập Facebook</span>
+                          </button>
+                        )}
+                      />
                     </div>
                   </div>
                 </div>

@@ -25,10 +25,16 @@ const loginGoogle = async (account) => {
   return response;
 };
 
+const loginFacebook = async (account) => {
+  const response = await api.post("/auth/login-facebook", account);
+  return response;
+};
+
 export const Auth = {
   getLogin,
   login,
   register,
   logout,
   loginGoogle,
+  loginFacebook,
 };
