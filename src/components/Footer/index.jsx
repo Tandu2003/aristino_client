@@ -1,23 +1,23 @@
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import "./Footer.scss";
 
+import { ReactComponent as IconBoCongThuong } from "../../assets/svg/bo-cong-thuong-verified-icon.svg";
 import { ReactComponent as IconCoffee } from "../../assets/svg/coffee.svg";
 import { ReactComponent as IconDelivery } from "../../assets/svg/delivery.svg";
-import { ReactComponent as IconPay } from "../../assets/svg/pay.svg";
-import { ReactComponent as IconGuarantee } from "../../assets/svg/guarantee.svg";
-import { ReactComponent as IconSent } from "../../assets/svg/sent.svg";
-import { ReactComponent as LogoFooter } from "../../assets/svg/logofooter.svg";
-import { ReactComponent as IconFacebook } from "../../assets/svg/facebook.svg";
-import { ReactComponent as IconInstagram } from "../../assets/svg/instagram.svg";
-import { ReactComponent as IconYoutube } from "../../assets/svg/youtube.svg";
-import { ReactComponent as IconTiktok } from "../../assets/svg/tiktok.svg";
-import { ReactComponent as IconShipCod } from "../../assets/svg/shipcod.svg";
-import { ReactComponent as IconVisa } from "../../assets/svg/visa.svg";
-import { ReactComponent as IconMasterCard } from "../../assets/svg/mastercard.svg";
 import { ReactComponent as IconEWallet } from "../../assets/svg/ewallet.svg";
-import { ReactComponent as IconBoCongThuong } from "../../assets/svg/bo-cong-thuong-verified-icon.svg";
+import { ReactComponent as IconFacebook } from "../../assets/svg/facebook.svg";
+import { ReactComponent as IconGuarantee } from "../../assets/svg/guarantee.svg";
+import { ReactComponent as IconInstagram } from "../../assets/svg/instagram.svg";
+import { ReactComponent as LogoFooter } from "../../assets/svg/logofooter.svg";
+import { ReactComponent as IconMasterCard } from "../../assets/svg/mastercard.svg";
+import { ReactComponent as IconPay } from "../../assets/svg/pay.svg";
+import { ReactComponent as IconSent } from "../../assets/svg/sent.svg";
+import { ReactComponent as IconShipCod } from "../../assets/svg/shipcod.svg";
+import { ReactComponent as IconTiktok } from "../../assets/svg/tiktok.svg";
+import { ReactComponent as IconVisa } from "../../assets/svg/visa.svg";
+import { ReactComponent as IconYoutube } from "../../assets/svg/youtube.svg";
 
 const list_policies = [
   {

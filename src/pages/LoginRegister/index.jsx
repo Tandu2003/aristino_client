@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useGoogleLogin } from "@react-oauth/google";
 import FacebookLogin from "@greatsumini/react-facebook-login";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Auth } from "../../api/auth";
 import AuthConext from "../../context/AuthProvider";
@@ -9,9 +9,9 @@ import AuthConext from "../../context/AuthProvider";
 import "./LoginRegister.scss";
 
 import { ReactComponent as IconEye } from "../../assets/svg/eye.svg";
-import { ReactComponent as IconNotEye } from "../../assets/svg/noteye.svg";
-import { ReactComponent as IconGoogle } from "../../assets/svg/logingg.svg";
 import { ReactComponent as IconFacebook } from "../../assets/svg/loginfb.svg";
+import { ReactComponent as IconGoogle } from "../../assets/svg/logingg.svg";
+import { ReactComponent as IconNotEye } from "../../assets/svg/noteye.svg";
 import { loadFacebookSDK } from "../../utils/facebookSDK";
 
 const LoginRegister = ({ login, register }) => {

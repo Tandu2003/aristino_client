@@ -1,32 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { Navigation, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import { products } from "../../assets/data/products";
 import { collections } from "../../assets/data/collections";
+import { products } from "../../assets/data/products";
 
-import NotFound from "../NotFound";
+import Brand from "../../components/Brand";
 import Breadcrumb from "../../components/Breadcrumb";
 import ProductItem from "../../components/ProductItem";
-import Brand from "../../components/Brand";
+import NotFound from "../NotFound";
 
 import "./ProductDetails.scss";
 
+import { ReactComponent as IconArrowRight } from "../../assets/svg/arrowright.svg";
+import { ReactComponent as IconCart } from "../../assets/svg/cart.svg";
+import { ReactComponent as IconChooseSize } from "../../assets/svg/choosesize.svg";
+import { ReactComponent as IconCirclePattern } from "../../assets/svg/circlepattern.svg";
 import { ReactComponent as IconStar1 } from "../../assets/svg/star1.svg";
 import { ReactComponent as IconStar2 } from "../../assets/svg/star2.svg";
-import { ReactComponent as IconStarFull } from "../../assets/svg/starfull.svg";
 import { ReactComponent as IconStarBorder } from "../../assets/svg/starborder.svg";
-import { ReactComponent as IconChooseSize } from "../../assets/svg/choosesize.svg";
-import { ReactComponent as IconCart } from "../../assets/svg/cart.svg";
+import { ReactComponent as IconStarFull } from "../../assets/svg/starfull.svg";
 import { ReactComponent as IconWishList } from "../../assets/svg/wishlist.svg";
-import { ReactComponent as IconArrowRight } from "../../assets/svg/arrowright.svg";
-import { ReactComponent as IconCirclePattern } from "../../assets/svg/circlepattern.svg";
 
 const ProductDetails = () => {
   const { slug } = useParams();

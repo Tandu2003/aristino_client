@@ -1,7 +1,7 @@
 import "./VideoHome.scss";
 
-import { ReactComponent as IconPlay } from "../../assets/svg/play.svg";
 import { ReactComponent as IconPause } from "../../assets/svg/pause.svg";
+import { ReactComponent as IconPlay } from "../../assets/svg/play.svg";
 
 const VideoHome = () => {
   const videoUrl =

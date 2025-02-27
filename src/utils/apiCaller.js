@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Environment } from "../../environments";
+import { Environment } from "../environments";
 
 axios.defaults.withCredentials = true;
 

@@ -3,15 +3,15 @@ import { Link, useLocation } from "react-router-dom";
 
 import "./Header.scss";
 
-import { ReactComponent as IconStore } from "../../assets/svg/store.svg";
-import { ReactComponent as Logo } from "../../assets/svg/logo.svg";
-import { ReactComponent as IconSearch } from "../../assets/svg/search.svg";
-import { ReactComponent as IconClose } from "../../assets/svg/close.svg";
 import { ReactComponent as IconAccount } from "../../assets/svg/account.svg";
-import { ReactComponent as IconWishlist } from "../../assets/svg/wishlist.svg";
 import { ReactComponent as IconCart } from "../../assets/svg/cart.svg";
-import { ReactComponent as IconMenu } from "../../assets/svg/menu.svg";
+import { ReactComponent as IconClose } from "../../assets/svg/close.svg";
 import { ReactComponent as IconDropDown } from "../../assets/svg/dropdown.svg";
+import { ReactComponent as Logo } from "../../assets/svg/logo.svg";
+import { ReactComponent as IconMenu } from "../../assets/svg/menu.svg";
+import { ReactComponent as IconSearch } from "../../assets/svg/search.svg";
+import { ReactComponent as IconStore } from "../../assets/svg/store.svg";
+import { ReactComponent as IconWishlist } from "../../assets/svg/wishlist.svg";
 
 const menuData = [
   {

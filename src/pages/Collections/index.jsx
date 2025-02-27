@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-import NotFound from "../NotFound";
-import Breadcrumb from "../../components/Breadcrumb";
 import Brand from "../../components/Brand";
+import Breadcrumb from "../../components/Breadcrumb";
 import ProductItem from "../../components/ProductItem";
+import NotFound from "../NotFound";
 
 import "./Collections.scss";
 
+import { ReactComponent as IconArrowLeft } from "../../assets/svg/arrowleft.svg";
 import { ReactComponent as IconPattern } from "../../assets/svg/circlepattern.svg";
+import { ReactComponent as IconClose } from "../../assets/svg/close.svg";
 import { ReactComponent as IconDropDown } from "../../assets/svg/dropdown.svg";
 import { ReactComponent as IconFilter } from "../../assets/svg/filter.svg";
-import { ReactComponent as IconClose } from "../../assets/svg/close.svg";
-import { ReactComponent as IconArrowLeft } from "../../assets/svg/arrowleft.svg";
 import { ReactComponent as IconShowMore } from "../../assets/svg/showmore.svg";
 
 import { collections } from "../../assets/data/collections";

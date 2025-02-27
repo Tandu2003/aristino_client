@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Autoplay, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import { ReactComponent as IconPattern } from "../../assets/svg/circlepattern.svg";
 import { ReactComponent as IconSent } from "../../assets/svg/sent.svg";

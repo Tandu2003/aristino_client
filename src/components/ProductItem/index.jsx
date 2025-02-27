@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 import "./ProductItem.scss";
 
-import { ReactComponent as IconWishList } from "../../assets/svg/wishlist.svg";
 import { ReactComponent as IconAdd } from "../../assets/svg/add.svg";
 import { ReactComponent as IconMore } from "../../assets/svg/more.svg";
+import { ReactComponent as IconWishList } from "../../assets/svg/wishlist.svg";
 
 const ProductItem = ({ product, index }) => {
   return (

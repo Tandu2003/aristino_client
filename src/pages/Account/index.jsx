@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./Account.scss";
@@ -6,9 +6,9 @@ import "./Account.scss";
 import { Auth } from "../../api/auth";
 import AuthContext from "../../context/AuthProvider";
 
-import { ReactComponent as IconUser } from "../../assets/svg/user.svg";
-import { ReactComponent as IconOrder } from "../../assets/svg/order.svg";
 import { ReactComponent as IconAddress } from "../../assets/svg/address.svg";
+import { ReactComponent as IconOrder } from "../../assets/svg/order.svg";
+import { ReactComponent as IconUser } from "../../assets/svg/user.svg";
 
 const Account = () => {
   const { user, setUser, setLoggedIn } = useContext(AuthContext);
@@ -19,7 +19,7 @@ const Account = () => {
 
   const { firstName, lastName, birthday } = user.profile;
 
-  // const [birthdayValue, setBirthdayValue] = useState(birthday);
+  const [birthdayValue, setBirthdayValue] = useState(birthday);
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -43,6 +43,10 @@ const Account = () => {
       navigate("/");
     }
   };
+
+  // const handleSaveBirthday = () => {
+  //   console.log(birthdayValue);
+  // };
 
   useEffect(() => {
     document.title = "Tài khoản - ARISTINO";
@@ -144,9 +148,9 @@ const Account = () => {
                             name="birthday"
                             className="form-control"
                             id="birthday"
-                            value={formatDate(birthday)}
+                            defaultValue={formatDate(birthdayValue)}
                             onChange={(e) => {
-                              // setBirthdayValue(e.target.value);
+                              setBirthdayValue(e.target.value);
                             }}
                           />
                         </div>
@@ -155,7 +159,7 @@ const Account = () => {
                         <div className="action-btn">
                           <button
                             type="submit"
-                            className="update-profile update-profile-trigger btn btn--fill-black"
+                            className="update-profile update-profile-trigger btn btn-fill-black"
                           >
                             LƯU THAY ĐỔI
                           </button>

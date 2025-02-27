@@ -1,4 +1,4 @@
-import { Environment } from "../../environments";
+import { Environment } from "../environments";
 
 export const loadFacebookSDK = () => {
   const { FB_APP_ID } = Environment;
