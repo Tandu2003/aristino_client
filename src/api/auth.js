@@ -2,7 +2,7 @@ import api from "../utils/apiCaller";
 
 const getLogin = async () => {
   const response = await api.get("/auth/login");
-  return response;
+  return response.data;
 };
 
 const login = async (account) => {

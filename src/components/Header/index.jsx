@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+
+import AuthContext from "../../context/AuthProvider";
 
 import "./Header.scss";
 
@@ -295,12 +297,14 @@ const menuData = [
 
 const Header = () => {
   const location = useLocation();
+  const { wishlist } = useContext(AuthContext);
 
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [isHoverMenu, setIsHoverMenu] = useState(false);
   const [isShowSubMenu, setIsShowSubMenu] = useState(menuData.map(() => false));
   const [isShowChildMenu, setIsShowChildMenu] = useState(menuData.map(() => false));
+  const [countWishlist, setCountWishlist] = useState(0);
 
   const toggleSearch = () => {
     if (window.innerWidth < 991) {
@@ -321,6 +325,10 @@ const Header = () => {
   const toggleChildMenu = (subIndex) => {
     setIsShowChildMenu((prev) => prev.map((item, i) => (i === subIndex ? !item : item)));
   };
+
+  useEffect(() => {
+    setCountWishlist(wishlist?.products?.length || 0);
+  }, [wishlist]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -397,9 +405,9 @@ const Header = () => {
                       </Link>
                     </li>
                     <li className="action-wishlist">
-                      <Link to="#" className="hasitem">
+                      <Link to="/pages/wishlist" className="hasitem">
                         <IconWishlist />
-                        <span>0</span>
+                        <span>{countWishlist}</span>
                       </Link>
                     </li>
                     <li className="action-cart">

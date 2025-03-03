@@ -1,8 +1,12 @@
 import api from "../utils/apiCaller";
 
 const getProducts = async () => {
-  const response = await api.get("/v1/products");
-  return response.data;
+  try {
+    const response = await api.get("/v1/products");
+    return response.data;
+  } catch (error) {
+    return [];
+  }
 };
 
 export const Product = {

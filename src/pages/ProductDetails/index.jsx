@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import "swiper/css";
@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { collections } from "../../assets/data/collections";
 import { products } from "../../assets/data/products";
 
+import AuthContext from "../../context/AuthProvider";
 import Brand from "../../components/Brand";
 import Breadcrumb from "../../components/Breadcrumb";
 import ProductItem from "../../components/ProductItem";
@@ -27,8 +28,10 @@ import { ReactComponent as IconStar2 } from "../../assets/svg/star2.svg";
 import { ReactComponent as IconStarBorder } from "../../assets/svg/starborder.svg";
 import { ReactComponent as IconStarFull } from "../../assets/svg/starfull.svg";
 import { ReactComponent as IconWishList } from "../../assets/svg/wishlist.svg";
+import { Wishlist } from "../../api/wishlist";
 
 const ProductDetails = () => {
+  const { user, loggedIn, wishlist, setWishlist } = useContext(AuthContext);
   const { slug } = useParams();
   const product = products.find((product) => product.slug === slug);
 
@@ -54,10 +57,32 @@ const ProductDetails = () => {
   const [hoverColorName, setHoverColorName] = useState(activeColorName);
   const [activeSize, setActiveSize] = useState(product.variants[0].sizes[0].size);
   const [tabActive, setTabActive] = useState("tab-1");
+  const [isInWishlist, setIsInWishlist] = useState(false);
+
+  const handleToggleWishlist = async () => {
+    if (!loggedIn) {
+      return alert("Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích.");
+    }
+
+    try {
+      const data = await Wishlist.toggleWishlist(user._id, product._id);
+      setWishlist({ ...wishlist, products: data.products });
+    } catch (error) {
+      console.log(error.response?.data.message || "Server không phản hồi");
+    }
+  };
 
   const handleTabActive = (tab) => {
     setTabActive(tab);
   };
+
+  useEffect(() => {
+    if (wishlist?.products?.includes(product._id)) {
+      setIsInWishlist(true);
+    } else {
+      setIsInWishlist(false);
+    }
+  }, [wishlist, product]);
 
   useEffect(() => {
     if (product) {
@@ -222,7 +247,14 @@ const ProductDetails = () => {
                           <IconCart />
                           <span>Thêm vào giỏ hàng</span>
                         </button>
-                        <button type="button" className="pr-button-wishlist js-wishlist">
+                        <button
+                          type="button"
+                          className={`pr-button-wishlist js-wishlist${
+                            isInWishlist ? " active" : ""
+                          }`}
+                          onClick={handleToggleWishlist}
+                        >
+                          <IconWishList className="filled" />
                           <IconWishList />
                         </button>
                       </div>

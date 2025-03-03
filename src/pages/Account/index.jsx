@@ -4,14 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Account.scss";
 
 import { Auth } from "../../api/auth";
-import AuthContext from "../../context/AuthProvider";
 
 import { ReactComponent as IconAddress } from "../../assets/svg/address.svg";
 import { ReactComponent as IconOrder } from "../../assets/svg/order.svg";
 import { ReactComponent as IconUser } from "../../assets/svg/user.svg";
 
+import AuthContext from "../../context/AuthProvider";
+
 const Account = () => {
-  const { user, setUser, setLoggedIn } = useContext(AuthContext);
+  const { user, setUser, setLoggedIn, setWishlist } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const Account = () => {
     if (response.data.success) {
       setUser({});
       setLoggedIn(false);
+      setWishlist({});
       navigate("/");
     }
   };

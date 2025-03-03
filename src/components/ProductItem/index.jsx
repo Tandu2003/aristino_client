@@ -1,12 +1,42 @@
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import AuthContext from "../../context/AuthProvider";
+
 import "./ProductItem.scss";
+
+import { Wishlist } from "../../api/wishlist";
 
 import { ReactComponent as IconAdd } from "../../assets/svg/add.svg";
 import { ReactComponent as IconMore } from "../../assets/svg/more.svg";
 import { ReactComponent as IconWishList } from "../../assets/svg/wishlist.svg";
 
 const ProductItem = ({ product, index }) => {
+  const { wishlist, setWishlist, user, loggedIn } = useContext(AuthContext);
+
+  const [isInWishlist, setIsInWishlist] = useState(false);
+
+  const handleToggleWishlist = async () => {
+    if (!loggedIn) {
+      return alert("Vui lòng đăng nhập để thêm sản phẩm vào danh sách yêu thích.");
+    }
+
+    try {
+      const data = await Wishlist.toggleWishlist(user._id, product._id);
+      setWishlist({ ...wishlist, products: data.products });
+    } catch (error) {
+      console.log(error.response?.data.message || "Server không phản hồi");
+    }
+  };
+
+  useEffect(() => {
+    if (wishlist?.products?.includes(product._id)) {
+      setIsInWishlist(true);
+    } else {
+      setIsInWishlist(false);
+    }
+  }, [wishlist, product]);
+
   return (
     <>
       <div className={`pro-title pro-loop pro-t1 ${index}`}>
@@ -25,7 +55,12 @@ const ProductItem = ({ product, index }) => {
             </div>
             <Link to={`/products/${product.slug}`} className="pro-loop-link" />
             <div className="pro-loop-wishlist">
-              <button type="button" className="btn-wishlist">
+              <button
+                type="button"
+                className={`btn-wishlist${isInWishlist ? " active" : ""}`}
+                onClick={handleToggleWishlist}
+              >
+                <IconWishList className="filled"/>
                 <IconWishList />
               </button>
             </div>
